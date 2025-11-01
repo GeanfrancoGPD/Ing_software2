@@ -14,13 +14,14 @@ import {
   IonRow,
   IonCol
 } from '@ionic/angular/standalone';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-verification-code-page',
   standalone: true,
   templateUrl: './verification-code-page.page.html',
   styleUrls: ['./verification-code-page.page.scss'],
-  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, CommonModule, FormsModule,RouterLink]
 })
 export class VerificationCodePage {
   code = '';

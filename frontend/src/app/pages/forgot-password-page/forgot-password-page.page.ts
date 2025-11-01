@@ -14,6 +14,7 @@ import {
   IonRow,
   IonCol
 } from '@ionic/angular/standalone';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-forgot-password-page',

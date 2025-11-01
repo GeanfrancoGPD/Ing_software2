@@ -11,13 +11,14 @@ import {
   IonRow,
   IonCol
 } from '@ionic/angular/standalone';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-welcome-page',
   standalone: true,
   templateUrl: './welcome-page.page.html',
   styleUrls: ['./welcome-page.page.scss'],
-  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonGrid, IonRow, IonCol, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonGrid, IonRow, IonCol, CommonModule, FormsModule, RouterLink]
 })
 export class WelcomePage {
   constructor() {}
