@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Código de verificación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>Introduce el código que te enviamos por correo.</p>
+  <form (ngSubmit)="onVerify()">
+    <ion-item>
+      <ion-label position="floating">Código</ion-label>
+      <ion-input type="text" [(ngModel)]="code" name="code"></ion-input>
+    </ion-item>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button expand="block" type="submit" (click)="onVerify()" routerLink="/reset-password">Verificar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
