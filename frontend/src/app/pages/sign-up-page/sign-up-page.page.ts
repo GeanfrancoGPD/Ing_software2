@@ -14,13 +14,14 @@ import {
   IonRow,
   IonCol
 } from '@ionic/angular/standalone';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-sign-up-page',
   standalone: true,
   templateUrl: './sign-up-page.page.html',
   styleUrls: ['./sign-up-page.page.scss'],
-  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, CommonModule, FormsModule, RouterLink]
 })
 export class SignUpPageComponent {
   name = '';
