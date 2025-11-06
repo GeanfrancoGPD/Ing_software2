@@ -1,33 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <form (ngSubmit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Correo electrónico</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
-    </ion-item>
-
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-button expand="block" type="submit" (click)="onLogin()">Entrar</ion-button>
-        </ion-col>
-        <ion-col size="12">
-          <ion-button expand="block" fill="clear" routerLink="/forgot-password">¿Olvidaste tu contraseña?</ion-button>
-        </ion-col>
-        <ion-col size="12">
-          <ion-button expand="block" fill="clear" routerLink="/sign-up">Crear cuenta</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
-</ion-content>
+<div id="container">
+  <app-dinamic-forms 
+      [inputs]="inputs" 
+      (formSubmit)="onSubmit($event)"
+      [buttons]="buttons"
+  ></app-dinamic-forms>
+</div>

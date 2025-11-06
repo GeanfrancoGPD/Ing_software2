@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  background-color: transparent; 
+}
+
+form {
+  background-color: #F6F1DA; 
+  padding: 16px;
+  border-radius: 8px;
+}
+
+ion-list{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: transparent; 
+    align-items: center;
+}
+
+ion-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 307px;
+    height: 70px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #367A4A; // borde verde
+    --text-decoration: none;
+    --color: #367A4A; // texto verde
+    --placeholder-color: #367A4A; // placeholder verde
+    --background: transparent; 
+    --inner-border-width: 0;   // elimina la línea inferior
+    --inner-border-color: transparent;
+
+}
+
+//Esto funciona porque ion-item propaga estilos a los hijos.
+
+// ion-input::part(input) {
+//   color: #367A4A;              // texto
+// }
+
+// ion-input::part(placeholder) {
+//   color: #367A4A;              // placeholder
+// }
+
+.custom-link {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  border: 0px solid #367A4A;
+  border-radius: 6px;
+  color: #367A4A;
+  text-decoration: underline;
+  margin-bottom: 12px;
+}
+
+.custom-link:hover {
+  background-color: #F6F1DA;
+}
+
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.end {
+  display: flex;
+  justify-content: flex-end;
+}

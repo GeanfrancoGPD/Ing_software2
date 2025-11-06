@@ -3,6 +3,12 @@ h2{text-align:center}
 p{text-align:center}
 
 
-.button-welcon{
-    margin: 30px;
+.buttons{
+    display: flex;
+    flex-direction: column;
+    margin-left: 28px;
+}
+
+p{
+    color: #429644;
 }

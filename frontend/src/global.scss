@@ -37,6 +37,35 @@
 @import "@ionic/angular/css/palettes/dark.system.css";
 
 
+@font-face {
+  font-family: 'Oleo';
+  src: url('/assets/font/Oleo_Script_Swash_Caps/OleoScriptSwashCaps-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "kelly";
+  src: url('/assets/font/Kelly_Slab/KellySlab-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#Title{
+  font-family: 'kelly';
+  font-size: 50px;
+  line-height: 5px;
+  color: #367A4A;
+  margin: 20px;
+}
+
+#Subtitle{
+  font-family: 'Oleo';
+  font-size: 60px;
+  color: #367A4A;
+  margin: 10px;
+}
+
 #container {
   text-align: center;
   position: absolute;
@@ -55,36 +84,30 @@
 }
 
 .avatar-grande {
-  width: 65vw;   /* ajusta según necesites */
-  height: 23vh;
+  width: 45vw;   
+  height: 18vh;
   --border-radius: 50%;
 }
 
 .avatar-grande img {
-  width: 100%;
-  height: 100%;
+  width: 125%;
+  height: 125%;
   --background-image: cover;
-}
-
-#container strong {
-  font-size: 50px;
-  line-height: 26px;
-  color: #367A4A;
-  margin: 20px;
-  
 }
 
 .button-d,
 .button-l{
-    height: 55.26px;
-    width: 271px;
-    margin: 15px;
-    --font-family: arial;
-    --color: white;
-    --background: #429644;
-    --border-radius: 14px;
+  height: 55.26px;
+  width: 271px;
+  margin: 15px;
+  --font-family: arial;
+  font-size: 20px;
+  --color: white;
+  --background: #429644;
+  --border-radius: 26px;
+  border: none;
 }
 
-.button-d{
-    --background: #CFDB8F;
+.button-l{
+  --background: #CFDB8F;
 }
