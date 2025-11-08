@@ -19,7 +19,7 @@ export class Despatcher {
     }
 
     const user = await this.DBPool.executeQuery(
-      "select id, nombre as name, email from usuario where email = $1 and password = $2",
+      "select id_usuario, nombre as name, email from usuario where email = $1 and password = $2",
       [email, password]
     );
 
