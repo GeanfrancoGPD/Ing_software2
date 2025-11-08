@@ -2,8 +2,40 @@
   display: block;
 }
 
-.buttons {
+.subtitle-line {
+  display: block;
+}
+
+.header {
+  height: auto;
+  padding-top: 6vh;
+}
+
+.container-buttons {
+  margin-top: 18px;
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
+  align-items: center;
+}
+
+.button-l, .button-d {
+  width: 80%;
+  max-width: 520px;
+  border-radius: 28px;
+}
+
+.dots {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #429644;
+  display: inline-block;
 }

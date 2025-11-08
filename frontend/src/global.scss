@@ -45,29 +45,46 @@
 }
 
 @font-face {
+  font-family: "Nokora";
+  src: url("/assets/font/Nokora/Nokora-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "kelly";
-  src: url("/assets/font/Kelly_Slab/KellySlab-Regular.ttf") format("truetype");
+  src: url("/assets/font/Kelly_Slab/KellySlab-Regular.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 .title {
-  font-family: "kelly";
+  font-family: "kelly", serif;
   font-size: 50px;
   line-height: 5px;
   color: #367a4a;
   margin: 20px;
+  font-weight: 550;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow:
+    0.4px 0 0 #367a4a,
+    -0.4px 0 0 #367a4a,
+    0 0.4px 0 #367a4a,
+    0 -0.4px 0 #367a4a;
 }
 
 .subtitle {
-  font-family: "Oleo";
+  font-family: "Oleo", cursive;
   font-size: 60px;
   color: #367a4a;
   margin: 10px;
 }
 
 .subtitle-small {
-  font-family: "Oleo";
+  font-family: "Nokora", serif;
   font-size: 20px;
   color: #367a4a;
   margin: 10px;
