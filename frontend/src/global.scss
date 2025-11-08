@@ -36,55 +36,75 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-
 @font-face {
-  font-family: 'Oleo';
-  src: url('/assets/font/Oleo_Script_Swash_Caps/OleoScriptSwashCaps-Regular.ttf') format('truetype');
+  font-family: "Oleo";
+  src: url("/assets/font/Oleo_Script_Swash_Caps/OleoScriptSwashCaps-Regular.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "kelly";
-  src: url('/assets/font/Kelly_Slab/KellySlab-Regular.ttf') format('truetype');
+  src: url("/assets/font/Kelly_Slab/KellySlab-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-#Title{
-  font-family: 'kelly';
+.title {
+  font-family: "kelly";
   font-size: 50px;
   line-height: 5px;
-  color: #367A4A;
+  color: #367a4a;
   margin: 20px;
 }
 
-#Subtitle{
-  font-family: 'Oleo';
+.subtitle {
+  font-family: "Oleo";
   font-size: 60px;
-  color: #367A4A;
+  color: #367a4a;
   margin: 10px;
 }
 
-#container {
-  text-align: center;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
- 
-  background: #F6F1DA;
+.subtitle-small {
+  font-family: "Oleo";
+  font-size: 20px;
+  color: #367a4a;
+  margin: 10px;
 }
 
-.info{
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100vw;
+  height: 100vh;
+
+  padding: 40px 0;
+
+  background: #f6f1da;
+}
+
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 25%;
+  text-align: center;
+  height: 50%;
+}
+
+.container-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
 }
 
 .avatar-grande {
-  width: 45vw;   
+  width: 45vw;
   height: 18vh;
   --border-radius: 50%;
 }
@@ -96,7 +116,7 @@
 }
 
 .button-d,
-.button-l{
+.button-l {
   height: 55.26px;
   width: 271px;
   margin: 15px;
@@ -108,6 +128,8 @@
   border: none;
 }
 
-.button-l{
-  --background: #CFDB8F;
+.button-l {
+  --background: #cfdb8f;
 }
+
+/* ANDRES EL CRACK DEL CSS PASÓ POR AQUI Y ARREGLO EL VAINERO LOCO QUE HABIA, CANCER VISUAL LITERAL*/

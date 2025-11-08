@@ -6,13 +6,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-dinamic-forms',
-  templateUrl: './dinamic-forms.component.html',
-  styleUrls: ['./dinamic-forms.component.scss'],
+  selector: 'app-dynamic-forms',
+  templateUrl: './dynamic-forms.component.html',
+  styleUrls: ['./dynamic-forms.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterLink]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterLink],
 })
-export class DinamicFormsComponent  implements OnInit {
+export class DynamicFormsComponent implements OnInit {
   @Input() inputs: any[] = [];
   @Output() formSubmit = new EventEmitter<any>();
   @Input() buttons: any[] = [];
@@ -23,7 +23,7 @@ export class DinamicFormsComponent  implements OnInit {
 
   ngOnInit() {
     const group: any = {};
-    this.inputs.forEach(input => {
+    this.inputs.forEach((input) => {
       group[input.name] = ['']; // valor inicial vacío
     });
     this.form = this.fb.group(group);
@@ -38,6 +38,4 @@ export class DinamicFormsComponent  implements OnInit {
       btn.action(); // ejecuta la función pasada desde el padre
     }
   }
-
-
 }

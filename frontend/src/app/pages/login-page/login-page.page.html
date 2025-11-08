@@ -1,7 +1,8 @@
-<div id="container">
-  <app-dinamic-forms 
-      [inputs]="inputs" 
-      (formSubmit)="onSubmit($event)"
-      [buttons]="buttons"
-  ></app-dinamic-forms>
+<div class="container">
+  <app-dynamic-header [title]="'Bienvenido de vuelta'"></app-dynamic-header>
+  <app-dynamic-forms
+    [inputs]="inputs"
+    (formSubmit)="onSubmit($event)"
+    [buttons]="buttons"
+  ></app-dynamic-forms>
 </div>
