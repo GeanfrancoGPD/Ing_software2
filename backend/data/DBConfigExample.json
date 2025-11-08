@@ -1,0 +1,10 @@
+{
+  "user": "<cliente>",
+  "host": "localhost",
+  "database": "<basededatos>",
+  "password": "<contraseña>",
+  "port": 5432,
+  "max": 20,
+  "idleTimeoutMilis": 30000,
+  "connectionTimeoutMilis": 2000
+}
