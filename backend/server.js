@@ -8,7 +8,7 @@ import cors from "cors";
 const poolConfig = JSON.parse(
   await promises.readFile("./data/DBConfig.json", "utf-8")
 );
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const despatcher = new Despatcher(poolConfig);
 const app = express();
 app.use(

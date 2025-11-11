@@ -8,7 +8,7 @@ export class Session{
         sessionObject.request.session.user = {
             id: user[0].id,
             email: user[0].email,
-            name: user[0].name + " " + user[0].lastname
+            name: user[0].name
         }
 
         sessionObject.response.json({

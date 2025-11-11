@@ -8,30 +8,30 @@ export class Despatcher {
     this.sessionComponent = new Session();
   }
 
-  async login(sessionObject) {
-    const { email, password } = sessionObject.request.body;
+    async login(sessionObject) {
+        const { email, password } = sessionObject.request.body;
 
-    if (!email || !password) {
-      return sessionObject.response.status(400).json({
-        success: false,
-        message: "Email y contraseña son requeridos",
-      });
+        if (!email || !password) {
+            return sessionObject.response.status(400).json({
+                success: false,
+                message: "Email y contraseña son requeridos",
+            });
+        }
+
+        const user = await this.DBPool.executeQuery(
+            "SELECT id_usuario AS id, nombre AS name, email FROM usuario WHERE email = $1 AND password = $2",
+            [email, password]
+        );
+
+        if (user.length === 0) {
+            return sessionObject.response.status(401).json({
+                success: false,
+                message: "Credenciales incorrectas",
+            });
+        }
+
+        await this.sessionComponent.createSession(sessionObject, user);
     }
-
-    const user = await this.DBPool.executeQuery(
-      "select id, nombre as name, email from usuario where email = $1 and password = $2",
-      [email, password]
-    );
-
-    if (user.length === 0) {
-      return sessionObject.response.status(401).json({
-        success: false,
-        message: "Credenciales incorrectas",
-      });
-    }
-
-    this.sessionComponent.createSession(sessionObject, user);
-  }
 
   async registerUser(sessionObject) {
     const { nombre, email, password, tipo_usuario } =
