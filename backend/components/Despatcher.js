@@ -138,19 +138,44 @@ export class Despatcher {
 
   async getData(sessionObject) {
     if (this.sessionComponent.sessionExist(sessionObject)) {
-      const data = await this.DBPool.executeQuery(
-        `SELECT a.nombre AS name, c.nombre AS profile
-       FROM usuario AS a
-       INNER JOIN perfil_usuario AS b ON a.id = b.id_usuario
-       INNER JOIN perfil AS c ON b.id_perfil = c.id
-       WHERE a.id = $1`,
-        [sessionObject.request.session.user.id]
-      );
+      try {
+        const data = await this.DBPool.executeQuery(
+          `SELECT nombre AS name, email, id_tipo_usuario
+           FROM usuario
+           WHERE id_usuario = $1`,
+          [sessionObject.request.session.user.id]
+        );
 
-      sessionObject.response.json({
-        name: data[0].name,
-        profile: data[0].profile,
-        success: true,
+        if (data.length === 0) {
+          return sessionObject.response.status(404).json({
+            success: false,
+            message: 'Usuario no encontrado',
+          });
+        }
+
+        // Obtener el tipo de usuario
+        const tipoUsuario = await this.DBPool.executeQuery(
+          `SELECT de_tipo_usuario FROM Tipos_usuario WHERE id_tipo_usuario = $1`,
+          [data[0].id_tipo_usuario]
+        );
+
+        sessionObject.response.json({
+          name: data[0].name,
+          email: data[0].email,
+          profile: tipoUsuario.length > 0 ? tipoUsuario[0].de_tipo_usuario : 'Usuario',
+          success: true,
+        });
+      } catch (error) {
+        console.error('Error en getData:', error);
+        sessionObject.response.status(500).json({
+          success: false,
+          message: 'Error al obtener datos del usuario',
+        });
+      }
+    } else {
+      sessionObject.response.status(401).json({
+        success: false,
+        message: 'No hay sesión activa',
       });
     }
   }

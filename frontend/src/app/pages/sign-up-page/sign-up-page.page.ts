@@ -1,51 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { DynamicFormsComponent } from '../../components/dynamic-forms/dynamic-forms.component';
 import { DynamicHeaderComponent } from 'src/app/components/dynamic-header/dynamic-header.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sign-up-page',
   standalone: true,
   templateUrl: './sign-up-page.page.html',
   styleUrls: ['./sign-up-page.page.scss'],
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    DynamicHeaderComponent,
-    DynamicFormsComponent,
-  ],
+  imports: [IonicModule, CommonModule, DynamicFormsComponent, DynamicHeaderComponent],
 })
-export class SignUpPageComponent {
+export class SignUpPage {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private toastController = inject(ToastController);
+  private loadingController = inject(LoadingController);
+
   inputs = [
-    { name: 'user', label: 'Ingrese su usuario', type: 'text' },
-    { name: 'email', label: 'Ingrese su correo electrónico', type: 'email' },
-    { name: 'pass', label: 'Confirme su contraseña', type: 'password' },
+    { name: 'nombre', label: 'Nombre completo', type: 'text' },
+    { name: 'email', label: 'Correo', type: 'email' },
+    { name: 'password', label: 'Contraseña', type: 'password' },
   ];
   buttons = [
-    {
-      type: 'submit',
-      label: 'Registrarse',
-      fill: 'solid',
-      class: 'button-d',
-      position: 'center',
-    },
-    {
-      type: 'link',
-      label: 'Ya tengo cuenta',
-      routerLink: '/login',
-      fill: 'clear',
-    },
-    // {type: 'button label: 'Iniciar con Google', action: () => this.loginWithGoogle() }
+    { label: 'Registrarse', type: 'submit' },
+    { label: '¿Ya estas registrado?', type: 'link', routerLink: '/login' }
   ];
 
-  constructor() {}
+  async onSubmit(values: any) {
+    const loading = await this.loadingController.create({
+      message: 'Creando cuenta...',
+    });
+    await loading.present();
 
-  onSubmit(values: any) {
-    console.log('Valores del formulario:', values);
-    // Aquí puedes hacer login con API, etc.
+    this.auth.register(values).subscribe({
+      next: async (response) => {
+        await loading.dismiss();
+        if (response.success) {
+          const toast = await this.toastController.create({
+            message: response.message || 'Cuenta creada exitosamente',
+            duration: 2000,
+            color: 'success',
+            position: 'top'
+          });
+          await toast.present();
+          this.router.navigateByUrl('/login');
+        } else {
+          const toast = await this.toastController.create({
+            message: response.message || 'Error al crear la cuenta',
+            duration: 3000,
+            color: 'danger',
+            position: 'top'
+          });
+          await toast.present();
+        }
+      },
+      error: async (error) => {
+        await loading.dismiss();
+        console.error('Error en registro:', error);
+        const message = error.error?.message || 'Error al conectar con el servidor';
+        const toast = await this.toastController.create({
+          message: message,
+          duration: 3000,
+          color: 'danger',
+          position: 'top'
+        });
+        await toast.present();
+      },
+    });
   }
 }

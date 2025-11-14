@@ -19,7 +19,14 @@ export const routes: Routes = [
     path: 'sign-up',
     loadComponent: () =>
       import('./pages/sign-up-page/sign-up-page.page').then(
-        (m) => m.SignUpPageComponent
+        (m) => m.SignUpPage
+      ),
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/forgot-password-page/forgot-password-page.page').then(
+        (m) => m.ForgotPasswordPage
       ),
   },
   {
@@ -37,10 +44,10 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'reset-password',
+    path: 'principal',
     loadComponent: () =>
-      import('./pages/reset-password-page/reset-password-page.page').then(
-        (m) => m.ResetPasswordPage
+      import('./pages/principal/principal.page').then(
+        (m) => m.PrincipalPage
       ),
   },
 ];

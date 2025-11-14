@@ -1,6 +1,7 @@
 :host {
   display: block;
   background-color: transparent;
+  font-family: "Nokora", serif; // fuente por defecto en el componente
 }
 
 form {
@@ -19,45 +20,73 @@ ion-list {
 
 ion-item {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; // contenido alineado a la izquierda como en la tarjeta
   align-items: center;
   width: 307px;
   height: 70px;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  border-radius: 20px; // más redondeado
+  margin-bottom: 16px; // un poco más de separación
   border: 2px solid #367a4a; // borde verde
-  --text-decoration: none;
-  --color: #367a4a; // texto verde
-  --placeholder-color: #367a4a; // placeholder verde
-  --background: transparent;
-  --inner-border-width: 0; // elimina la línea inferior
+  --background: #fff9d6; // fondo amarillo suave de la tarjeta
+  --inner-border-width: 0;
   --inner-border-color: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 70px;
 }
 
-//Esto funciona porque ion-item propaga estilos a los hijos.
+// Icono a la izquierda
+ion-item ion-icon {
+  font-size: 24px;
+  color: #367a4a;
+  margin-right: 12px;
+}
 
-// ion-input::part(input) {
-//   color: #367A4A;              // texto
-// }
+// Label como texto centrado verticalmente
+ion-label {
+  font-family: "Nokora", serif;
+  font-size: 20px;
+  color: #367a4a;
+}
 
-// ion-input::part(placeholder) {
-//   color: #367A4A;              // placeholder
-// }
+// Ocultamos el borde/línea propia del input y lo hacemos transparente
+ion-input {
+  --background: transparent;
+  --color: #367a4a;
+  --padding-start: 0;
+  font-family: "Nokora", serif;
+}
+
+// Forzamos también la fuente en el campo nativo dentro de ion-input
+ion-input::part(native),
+ion-input::part(input) {
+  font-family: "Nokora", serif;
+}
 
 .custom-link {
   display: flex;
   justify-content: center;
   text-align: center;
   padding: 12px;
-  border: 0px solid #367a4a;
   border-radius: 6px;
   color: #367a4a;
   text-decoration: underline;
-  margin-bottom: 12px;
+  margin-top: 8px;
+  font-family: "Nokora", serif;
+  font-weight: 900;
 }
 
-.custom-link:hover {
-  background-color: #f6f1da;
+ion-button[type="submit"] {
+  height: 55px;
+  width: 271px;
+  margin: 20px auto 8px auto;
+  --border-radius: 26px;
+  --background: #429644;
+  --color: #ffffff;
+  --box-shadow: none;
+  font-family: "Nokora", serif;
+  font-size: 20px;
+  font-weight: 900;
 }
 
 .center {
