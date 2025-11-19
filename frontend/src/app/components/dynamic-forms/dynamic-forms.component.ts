@@ -19,6 +19,11 @@ export class DynamicFormsComponent implements OnInit {
 
   form!: FormGroup;
 
+  // jest Pruebas para el back, supertest
+  // bcrypt para el back
+
+  //font, se puede usar SPECT y supertest
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {

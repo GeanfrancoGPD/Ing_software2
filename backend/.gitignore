@@ -1,2 +1,4 @@
-.data/DBConfig.json
+data/DBConfig.json
+node_modules
+.env 
 
