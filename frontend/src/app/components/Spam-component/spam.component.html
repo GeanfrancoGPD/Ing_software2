@@ -1,0 +1,22 @@
+<div [formGroup]="form" class="spam-form">
+  <div *ngFor="let controlName of controls" class="form-group">
+    <label [for]="controlName">{{ controlName | titlecase }}</label>
+    <input
+      [id]="controlName"
+      [formControlName]="controlName"
+      [placeholder]="'Ingrese ' + controlName"
+      class="form-control"
+      [ngClass]="{'invalid': getControl(controlName).invalid && getControl(controlName).touched}"
+    />
+    <div class="error" *ngIf="getControl(controlName).invalid && getControl(controlName).touched">
+      <small *ngIf="getControl(controlName).errors?.required">{{ controlName | titlecase }} es obligatorio.</small>
+      <small *ngIf="getControl(controlName).errors?.minlength">
+        {{ controlName | titlecase }} debe tener al menos {{ getControl(controlName).errors?.minlength.requiredLength }} caracteres.
+      </small>
+      <small *ngIf="getControl(controlName).errors?.maxlength">
+        {{ controlName | titlecase }} debe tener máximo {{ getControl(controlName).errors?.maxlength.requiredLength }} caracteres.
+      </small>
+      <small *ngIf="getControl(controlName).errors?.email">Ingrese un correo válido.</small>
+    </div>
+  </div>
+</div>
