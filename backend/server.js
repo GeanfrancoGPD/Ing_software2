@@ -8,15 +8,19 @@ import cors from "cors";
 const poolConfig = JSON.parse(
   await promises.readFile("./data/DBConfig.json", "utf-8")
 );
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const despatcher = new Despatcher(poolConfig);
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+      origin: [
+          'http://localhost:8100',
+          'http://localhost:4200',
+          'http://localhost:3000'
+      ],
+      credentials: true,
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
 app.use(express.json());
@@ -25,11 +29,12 @@ app.use(
     secret: "mi-clave-secreta",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 2,
-    },
+      cookie: {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'lax',
+          maxAge: 1000 * 60 * 60 // 1 hora
+      },
   })
 );
 

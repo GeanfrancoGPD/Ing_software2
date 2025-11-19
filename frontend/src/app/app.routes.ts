@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,14 @@ export const routes: Routes = [
     path: 'sign-up',
     loadComponent: () =>
       import('./pages/sign-up-page/sign-up-page.page').then(
-        (m) => m.SignUpPageComponent
+        (m) => m.SignUpPage
+      ),
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/forgot-password-page/forgot-password-page.page').then(
+        (m) => m.ForgotPasswordPage
       ),
   },
   {
@@ -37,10 +45,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'reset-password',
+    path: 'main',
+    canActivate: [authGuard],
     loadComponent: () =>
-      import('./pages/reset-password-page/reset-password-page.page').then(
-        (m) => m.ResetPasswordPage
+      import('./pages/main/main.page').then(
+        (m) => m.MainPage
       ),
   },
 ];

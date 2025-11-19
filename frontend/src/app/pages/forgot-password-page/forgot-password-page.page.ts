@@ -1,35 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButton,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonGrid,
-  IonRow,
-  IonCol
-} from '@ionic/angular/standalone';
-import {RouterLink} from "@angular/router";
+import { IonicModule } from '@ionic/angular';
+import { ResetPayload } from '../../services/auth.service';
+import {AuthFacade} from "../../services/auth-facade.service";
+import {DynamicFormsComponent} from "../../components/dynamic-forms/dynamic-forms.component";
+import {DynamicHeaderComponent} from "../../components/dynamic-header/dynamic-header.component";
 
 @Component({
   selector: 'app-forgot-password-page',
   standalone: true,
   templateUrl: './forgot-password-page.page.html',
   styleUrls: ['./forgot-password-page.page.scss'],
-  imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, CommonModule, FormsModule]
+  imports: [CommonModule, IonicModule, FormsModule, DynamicFormsComponent, DynamicHeaderComponent],
 })
 export class ForgotPasswordPage {
-  email = '';
+  public authFacade = inject(AuthFacade);
 
-  constructor() {}
+  inputs = [
+    { name: 'email', label: 'Correo', type: 'email' },
+    { name: 'password', label: 'Nueva contraseña', type: 'password' },
+    { name: 'repeat_password', label: 'Confirmar contraseña', type: 'password' }
+  ];
+  buttons = [
+    { label: 'Restablecer', type: 'submit' },
+  ];
 
-  onRequest() {
-    console.log('Request reset for', this.email);
+  onSubmit(formValue: any) {
+    const payload: ResetPayload = {
+      email: formValue.email,
+      password: formValue.password
+    };
+
+    this.authFacade.resetPassword(payload);
   }
 }
-

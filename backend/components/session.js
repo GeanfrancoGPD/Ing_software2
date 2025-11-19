@@ -4,12 +4,16 @@ export class Session{
     }
 
     async createSession(sessionObject, user){
+        console.log('Creando sesión para usuario:', user[0].email);
 
         sessionObject.request.session.user = {
             id: user[0].id,
             email: user[0].email,
-            name: user[0].name + " " + user[0].lastname
+            name: user[0].name
         }
+
+        console.log('Sesión creada:', sessionObject.request.session.user);
+        console.log('Session ID:', sessionObject.request.sessionID);
 
         sessionObject.response.json({
             success: true,
@@ -19,7 +23,15 @@ export class Session{
     }
 
     sessionExist(sessionObject){
-        return (sessionObject.request.session.user? true : false)
+        const exists = sessionObject.request.session.user ? true : false;
+        console.log('Verificando sesión:', exists ? 'EXISTE' : 'NO EXISTE');
+        if (exists) {
+            console.log('Usuario en sesión:', sessionObject.request.session.user);
+        } else {
+            console.log('No hay usuario en la sesión');
+            console.log('Session object:', sessionObject.request.session);
+        }
+        return exists;
     }
 
     destroySession(sessionObject){

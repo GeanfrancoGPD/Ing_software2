@@ -1,51 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { DynamicFormsComponent } from '../../components/dynamic-forms/dynamic-forms.component';
 import { DynamicHeaderComponent } from 'src/app/components/dynamic-header/dynamic-header.component';
+import {AuthService, LoginPayload, RegisterPayload} from '../../services/auth.service';
+import { AuthFacade } from '../../services/auth-facade.service';
 
 @Component({
   selector: 'app-sign-up-page',
   standalone: true,
   templateUrl: './sign-up-page.page.html',
   styleUrls: ['./sign-up-page.page.scss'],
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    DynamicHeaderComponent,
-    DynamicFormsComponent,
-  ],
+  imports: [IonicModule, CommonModule, DynamicFormsComponent, DynamicHeaderComponent],
 })
-export class SignUpPageComponent {
+export class SignUpPage {
+  public authFacade = inject(AuthFacade);
+
   inputs = [
-    { name: 'user', label: 'Ingrese su usuario', type: 'text' },
-    { name: 'email', label: 'Ingrese su correo electrónico', type: 'email' },
-    { name: 'pass', label: 'Confirme su contraseña', type: 'password' },
+    { name: 'nombre', label: 'Nombre completo', type: 'text' },
+    { name: 'email', label: 'Correo', type: 'email' },
+    { name: 'password', label: 'Contraseña', type: 'password' },
   ];
   buttons = [
-    {
-      type: 'submit',
-      label: 'Registrarse',
-      fill: 'solid',
-      class: 'button-d',
-      position: 'center',
-    },
-    {
-      type: 'link',
-      label: 'Ya tengo cuenta',
-      routerLink: '/login',
-      fill: 'clear',
-    },
-    // {type: 'button label: 'Iniciar con Google', action: () => this.loginWithGoogle() }
+    { label: 'Registrarse', type: 'submit' },
+    { label: '¿Ya estas registrado?', type: 'link', routerLink: '/login' }
   ];
 
-  constructor() {}
+  onSubmit(formValue: any) {
+    const payload: RegisterPayload = {
+      nombre: formValue.nombre,
+      email: formValue.email,
+      password: formValue.password,
+      tipo_usuario: 2,
+    };
 
-  onSubmit(values: any) {
-    console.log('Valores del formulario:', values);
-    // Aquí puedes hacer login con API, etc.
+    this.authFacade.register(payload);
   }
 }

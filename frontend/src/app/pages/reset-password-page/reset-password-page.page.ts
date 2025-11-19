@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { RecoverPayload } from '../../services/auth.service';
 import { DynamicFormsComponent } from '../../components/dynamic-forms/dynamic-forms.component';
-import { DynamicHeaderComponent } from 'src/app/components/dynamic-header/dynamic-header.component';
-import { RouterLink } from '@angular/router';
+import { DynamicHeaderComponent } from '../../components/dynamic-header/dynamic-header.component';
+import { AuthFacade } from '../../services/auth-facade.service';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -12,37 +13,24 @@ import { RouterLink } from '@angular/router';
   templateUrl: './reset-password-page.page.html',
   styleUrls: ['./reset-password-page.page.scss'],
   imports: [
+    CommonModule,
+    IonicModule,
+    FormsModule,
     DynamicFormsComponent,
     DynamicHeaderComponent,
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterLink,
   ],
 })
 export class ResetPasswordPage {
-  inputs = [
-    { name: 'newPassword', label: 'Contraseña nueva', type: 'password' },
-    {
-      name: 'confirmPassword',
-      label: 'Confirme su contraseña',
-      type: 'password',
-    },
-  ];
-  buttons = [
-    {
-      type: 'submit',
-      label: 'Confirmar',
-      fill: 'solid',
-      class: 'button-d',
-      position: 'center',
-    },
-  ];
+  public authFacade = inject(AuthFacade);
 
-  constructor() {}
+  inputs = [{ name: 'email', label: 'Correo', type: 'email' }];
+  buttons = [{ label: 'Enviar Codigo', type: 'submit' }];
 
-  onSubmit(values: any) {
-    console.log('Valores del formulario:', values);
-    // Aquí puedes hacer login con API, etc.
+  onSubmit(formValue: any) {
+    const payload: RecoverPayload = {
+      email: formValue.email,
+    };
+
+    this.authFacade.requestPasswordReset(payload);
   }
 }

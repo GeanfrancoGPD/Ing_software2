@@ -10,45 +10,47 @@
       </ion-input>
     </ion-item>
   </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        size="12"
+        *ngFor="let btn of buttons"
+        [ngClass]="btn.position || 'center'"
+      >
+        <!-- Boton de submit -->
+        <ion-button
+          *ngIf="btn.type === 'submit'"
+          expand="block"
+          [fill]="btn.fill || 'solid'"
+          type="submit"
+          [ngClass]="btn.class"
+        >
+          {{ btn.label }}
+        </ion-button>
+
+        <!-- Si es un botón normal -->
+        <ion-button
+          *ngIf="btn.type === 'button'"
+          expand="block"
+          [fill]="btn.fill || 'clear'"
+          [routerLink]="btn.routerLink"
+          (click)="handleButtonClick(btn)"
+          [ngClass]="btn.class"
+        >
+          {{ btn.label }}
+        </ion-button>
+
+        <!-- Si es un enlace -->
+        <a
+          *ngIf="btn.type === 'link'"
+          [routerLink]="btn.routerLink"
+          target="{{ btn.target || '_self' }}"
+          class="custom-link"
+        >
+          {{ btn.label }}
+        </a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </form>
-
-<!-- Botones -->
-<ion-col
-  size="12"
-  *ngFor="let btn of buttons"
-  [ngClass]="btn.position || 'center'"
->
-  <!-- Boton de sumit -->
-  <ion-button
-    *ngIf="btn.type === 'submit'"
-    expand="block"
-    [fill]="btn.fill || 'solid'"
-    type="submit"
-    [routerLink]="btn.routerLink"
-    (click)="handleButtonClick(btn)"
-    [ngClass]="btn.class"
-  >
-    {{ btn.label }}
-  </ion-button>
-  <!-- Si es un botón normal -->
-  <ion-button
-    *ngIf="btn.type === 'button'"
-    expand="block"
-    [fill]="btn.fill || 'clear'"
-    [routerLink]="btn.routerLink"
-    (click)="handleButtonClick(btn)"
-    [ngClass]="btn.class"
-  >
-    {{ btn.label }}
-  </ion-button>
-
-  <!-- Si es un enlace -->
-  <a
-    *ngIf="btn.type === 'link'"
-    [routerLink]="btn.routerLink"
-    target="{{ btn.target || '_self' }}"
-    class="custom-link"
-  >
-    {{ btn.label }}
-  </a>
-</ion-col>

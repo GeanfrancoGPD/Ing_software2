@@ -1,5 +1,5 @@
-import { DB } from "./DBComponent.js";
-import { Session } from "./session.js";
+import { DB } from './DBComponent.js';
+import { Session } from './session.js';
 // import nodemailer from "nodemailer";
 
 export class Despatcher {
@@ -14,23 +14,23 @@ export class Despatcher {
     if (!email || !password) {
       return sessionObject.response.status(400).json({
         success: false,
-        message: "Email y contraseña son requeridos",
+        message: 'Email y contraseña son requeridos',
       });
     }
 
     const user = await this.DBPool.executeQuery(
-      "select id_usuario, nombre as name, email from usuario where email = $1 and password = $2",
+      'SELECT id_usuario AS id, nombre AS name, email FROM usuario WHERE email = $1 AND password = $2',
       [email, password]
     );
 
     if (user.length === 0) {
       return sessionObject.response.status(401).json({
         success: false,
-        message: "Credenciales incorrectas",
+        message: 'Credenciales incorrectas',
       });
     }
 
-    this.sessionComponent.createSession(sessionObject, user);
+    await this.sessionComponent.createSession(sessionObject, user);
   }
 
   async registerUser(sessionObject) {
@@ -40,7 +40,7 @@ export class Despatcher {
     if (!email || !password || !nombre) {
       return sessionObject.response.status(402).json({
         success: false,
-        message: "Todos los datos son requeridos",
+        message: 'Todos los datos son requeridos',
       });
     }
 
@@ -60,13 +60,13 @@ export class Despatcher {
     }
 
     await this.DBPool.executeQuery(
-      "INSERT INTO usuario (nombre, email, password, id_tipo_usuario) VALUES ($1, $2, $3, $4)",
+      'INSERT INTO usuario (nombre, email, password, id_tipo_usuario) VALUES ($1, $2, $3, $4)',
       [nombre, email, password, tipoFinal]
     );
 
     sessionObject.response.json({
       success: true,
-      message: "Se ha creado el usuario correctamente",
+      message: 'Se ha creado el usuario correctamente',
     });
   }
 
@@ -76,7 +76,7 @@ export class Despatcher {
     if (!email) {
       return sessionObject.response.status(403).json({
         success: false,
-        message: "El email es requerido",
+        message: 'El email es requerido',
       });
     }
 
@@ -111,7 +111,7 @@ export class Despatcher {
 
     sessionObject.response.json({
       success: true,
-      message: "Se ha enviado el correo correctamente",
+      message: 'Se ha enviado el correo correctamente',
     });
   }
 
@@ -121,36 +121,62 @@ export class Despatcher {
     if (!email || !password) {
       return sessionObject.response.status(404).json({
         success: false,
-        message: "Email y contraseña son requeridos",
+        message: 'Email y contraseña son requeridos',
       });
     }
 
     await this.DBPool.executeQuery(
-      "update usuario set password = $2 where email = $1",
+      'update usuario set password = $2 where email = $1',
       [email, password]
     );
 
     sessionObject.response.json({
       success: true,
-      message: "Se ha cambiado la contraseña correctamente",
+      message: 'Se ha cambiado la contraseña correctamente',
     });
   }
 
   async getData(sessionObject) {
     if (this.sessionComponent.sessionExist(sessionObject)) {
-      const data = await this.DBPool.executeQuery(
-        `SELECT a.nombre AS name, c.nombre AS profile
-       FROM usuario AS a
-       INNER JOIN perfil_usuario AS b ON a.id = b.id_usuario
-       INNER JOIN perfil AS c ON b.id_perfil = c.id
-       WHERE a.id = $1`,
-        [sessionObject.request.session.user.id]
-      );
+      try {
+        const data = await this.DBPool.executeQuery(
+          `SELECT nombre AS name, email, id_tipo_usuario
+           FROM usuario
+           WHERE id_usuario = $1`,
+          [sessionObject.request.session.user.id]
+        );
 
-      sessionObject.response.json({
-        name: data[0].name,
-        profile: data[0].profile,
-        success: true,
+        if (data.length === 0) {
+          return sessionObject.response.status(404).json({
+            success: false,
+            message: 'Usuario no encontrado',
+          });
+        }
+
+        // Obtener el tipo de usuario
+        const tipoUsuario = await this.DBPool.executeQuery(
+          `SELECT de_tipo_usuario FROM Tipos_usuario WHERE id_tipo_usuario = $1`,
+          [data[0].id_tipo_usuario]
+        );
+
+        sessionObject.response.json({
+          name: data[0].name,
+          email: data[0].email,
+          profile:
+            tipoUsuario.length > 0 ? tipoUsuario[0].de_tipo_usuario : 'Usuario',
+          success: true,
+        });
+      } catch (error) {
+        console.error('Error en getData:', error);
+        sessionObject.response.status(500).json({
+          success: false,
+          message: 'Error al obtener datos del usuario',
+        });
+      }
+    } else {
+      sessionObject.response.status(401).json({
+        success: false,
+        message: 'No hay sesión activa',
       });
     }
   }

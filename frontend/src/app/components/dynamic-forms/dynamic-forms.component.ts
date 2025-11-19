@@ -1,30 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-forms',
   templateUrl: './dynamic-forms.component.html',
   styleUrls: ['./dynamic-forms.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
 })
 export class DynamicFormsComponent implements OnInit {
   @Input() inputs: any[] = [];
   @Output() formSubmit = new EventEmitter<any>();
   @Input() buttons: any[] = [];
 
+  private fb = inject(FormBuilder);
   form!: FormGroup;
-
-  // jest Pruebas para el back, supertest
-  // bcrypt para el back
-
-  //font, se puede usar SPECT y supertest
-
-  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     const group: any = {};
@@ -40,7 +41,7 @@ export class DynamicFormsComponent implements OnInit {
 
   handleButtonClick(btn: any) {
     if (btn.action) {
-      btn.action(); // ejecuta la función pasada desde el padre
+      btn.action();
     }
   }
 }
