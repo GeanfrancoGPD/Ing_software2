@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable, tap} from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface LoginPayload {
@@ -42,6 +42,9 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
+  private currentUserSubject = new BehaviorSubject<UserData | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+
   login(payload: LoginPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/login`, payload, {
       withCredentials: true
@@ -66,15 +69,19 @@ export class AuthService {
     });
   }
 
-  logout(): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/logout`, {}, {
-      withCredentials: true
-    });
-  }
-
   getData(): Observable<UserData> {
     return this.http.get<UserData>(`${this.apiUrl}/getdata`, {
-      withCredentials: true
-    });
+      withCredentials: true,
+    }).pipe(
+      tap((user) => this.currentUserSubject.next(user))
+    );
+  }
+
+  logout(): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/logout`, {}, {
+      withCredentials: true,
+    }).pipe(
+      tap(() => this.currentUserSubject.next(null))
+    );
   }
 }

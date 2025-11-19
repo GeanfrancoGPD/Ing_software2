@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { DynamicFormsComponent } from '../../components/dynamic-forms/dynamic-forms.component';
 import { DynamicHeaderComponent } from 'src/app/components/dynamic-header/dynamic-header.component';
-import { AuthService } from '../../services/auth.service';
+import { LoginPayload } from '../../services/auth.service';
+import { AuthFacade } from '../../services/auth-facade.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,10 +14,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [CommonModule, IonicModule, DynamicFormsComponent, DynamicHeaderComponent],
 })
 export class LoginPageComponent {
-  private auth = inject(AuthService);
-  private router = inject(Router);
-  private toastController = inject(ToastController);
-  private loadingController = inject(LoadingController);
+  public authFacade = inject(AuthFacade);
 
   inputs = [
     { name: 'email', label: 'Correo', type: 'email' },
@@ -28,46 +25,12 @@ export class LoginPageComponent {
     { label: '¿Olvidaste tu contraseña?', type: 'link', routerLink: '/forgot-password' },
   ];
 
-  async onSubmit(values: any) {
-    const loading = await this.loadingController.create({
-      message: 'Iniciando sesión...',
-    });
-    await loading.present();
+  onSubmit(formValue: any) {
+    const payload: LoginPayload = {
+      email: formValue.email,
+      password: formValue.password,
+    };
 
-    this.auth.login(values).subscribe({
-      next: async (response) => {
-        await loading.dismiss();
-        if (response.success) {
-          const toast = await this.toastController.create({
-            message: 'Inicio de sesión exitoso',
-            duration: 2000,
-            color: 'success',
-            position: 'top'
-          });
-          await toast.present();
-          this.router.navigateByUrl('/principal');
-        } else {
-          const toast = await this.toastController.create({
-            message: response.message || 'Error al iniciar sesión',
-            duration: 3000,
-            color: 'danger',
-            position: 'top'
-          });
-          await toast.present();
-        }
-      },
-      error: async (error) => {
-        await loading.dismiss();
-        console.error('Error en login:', error);
-        const message = error.error?.message || 'Error al conectar con el servidor';
-        const toast = await this.toastController.create({
-          message: message,
-          duration: 3000,
-          color: 'danger',
-          position: 'top'
-        });
-        await toast.present();
-      },
-    });
+    this.authFacade.login(payload);
   }
 }

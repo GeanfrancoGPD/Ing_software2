@@ -4,7 +4,8 @@ import { IonicModule, ToastController, LoadingController } from '@ionic/angular'
 import { Router } from '@angular/router';
 import { DynamicFormsComponent } from '../../components/dynamic-forms/dynamic-forms.component';
 import { DynamicHeaderComponent } from 'src/app/components/dynamic-header/dynamic-header.component';
-import { AuthService } from '../../services/auth.service';
+import {AuthService, LoginPayload, RegisterPayload} from '../../services/auth.service';
+import { AuthFacade } from '../../services/auth-facade.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -14,10 +15,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [IonicModule, CommonModule, DynamicFormsComponent, DynamicHeaderComponent],
 })
 export class SignUpPage {
-  private auth = inject(AuthService);
-  private router = inject(Router);
-  private toastController = inject(ToastController);
-  private loadingController = inject(LoadingController);
+  public authFacade = inject(AuthFacade);
 
   inputs = [
     { name: 'nombre', label: 'Nombre completo', type: 'text' },
@@ -29,46 +27,14 @@ export class SignUpPage {
     { label: '¿Ya estas registrado?', type: 'link', routerLink: '/login' }
   ];
 
-  async onSubmit(values: any) {
-    const loading = await this.loadingController.create({
-      message: 'Creando cuenta...',
-    });
-    await loading.present();
+  onSubmit(formValue: any) {
+    const payload: RegisterPayload = {
+      nombre: formValue.nombre,
+      email: formValue.email,
+      password: formValue.password,
+      tipo_usuario: 2,
+    };
 
-    this.auth.register(values).subscribe({
-      next: async (response) => {
-        await loading.dismiss();
-        if (response.success) {
-          const toast = await this.toastController.create({
-            message: response.message || 'Cuenta creada exitosamente',
-            duration: 2000,
-            color: 'success',
-            position: 'top'
-          });
-          await toast.present();
-          this.router.navigateByUrl('/login');
-        } else {
-          const toast = await this.toastController.create({
-            message: response.message || 'Error al crear la cuenta',
-            duration: 3000,
-            color: 'danger',
-            position: 'top'
-          });
-          await toast.present();
-        }
-      },
-      error: async (error) => {
-        await loading.dismiss();
-        console.error('Error en registro:', error);
-        const message = error.error?.message || 'Error al conectar con el servidor';
-        const toast = await this.toastController.create({
-          message: message,
-          duration: 3000,
-          color: 'danger',
-          position: 'top'
-        });
-        await toast.present();
-      },
-    });
+    this.authFacade.register(payload);
   }
 }

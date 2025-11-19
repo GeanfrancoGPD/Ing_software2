@@ -22,4 +22,9 @@
       <p>No se pudieron cargar los datos</p>
     </div>
   </div>
+
+  <app-dynamic-forms
+    (formSubmit)="onSubmit()"
+    [buttons]="buttons"
+  ></app-dynamic-forms>
 </ion-content>
