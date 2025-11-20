@@ -16,16 +16,14 @@ describe('LoginPageComponent', () => {
     mockAuthFacade = jasmine.createSpyObj<AuthFacade>('AuthFacade', ['login']);
 
     await TestBed.configureTestingModule({
-      // IMPORTAR el componente standalone (no declararlo)
       imports: [
         LoginPageComponent,
         CommonModule,
         IonicModule.forRoot(),
-        RouterTestingModule.withRoutes([]), // <-- proporciona ActivatedRoute / RouterLink
+        RouterTestingModule.withRoutes([]),
       ],
       providers: [{ provide: AuthFacade, useValue: mockAuthFacade }],
-      // Si quieres evitar cualquier parsing/errores de hijos no relevantes, puedes mantener el schema
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], // opcional si no importas/declare stubs
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], // Nos ahorramos stubs de hijos y problemas
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPageComponent);
