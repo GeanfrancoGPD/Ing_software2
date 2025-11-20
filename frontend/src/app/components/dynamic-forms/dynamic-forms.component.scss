@@ -46,7 +46,7 @@ ion-item ion-icon {
 ion-label {
   font-family: "Nokora", serif;
   font-size: 20px;
-  color: #367a4a;
+  --color: #367a4a;
 }
 
 // Ocultamos el borde/línea propia del input y lo hacemos transparente
@@ -57,10 +57,11 @@ ion-input {
   font-family: "Nokora", serif;
 }
 
-// Forzamos también la fuente en el campo nativo dentro de ion-input
 ion-input::part(native),
 ion-input::part(input) {
-  font-family: "Nokora", serif;
+  font-family: "Nokora", serif !important;
+  font-size: 20px !important;
+  color: #367a4a !important;
 }
 
 .custom-link {
@@ -92,6 +93,7 @@ ion-button[type="submit"] {
 .center {
   display: flex;
   justify-content: center;
+  color: #367a4a;
 }
 
 .start {

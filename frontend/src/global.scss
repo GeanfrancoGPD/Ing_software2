@@ -54,8 +54,7 @@
 
 @font-face {
   font-family: "kelly";
-  src: url("/assets/font/Kelly_Slab/KellySlab-Regular.ttf")
-    format("truetype");
+  src: url("/assets/font/Kelly_Slab/KellySlab-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -69,10 +68,7 @@
   font-weight: 550;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  text-shadow:
-    0.4px 0 0 #367a4a,
-    -0.4px 0 0 #367a4a,
-    0 0.4px 0 #367a4a,
+  text-shadow: 0.4px 0 0 #367a4a, -0.4px 0 0 #367a4a, 0 0.4px 0 #367a4a,
     0 -0.4px 0 #367a4a;
 }
 
@@ -148,5 +144,3 @@
 .button-l {
   --background: #cfdb8f;
 }
-
-/* ANDRES EL CRACK DEL CSS PASÓ POR AQUI Y ARREGLO EL VAINERO LOCO QUE HABIA, CANCER VISUAL LITERAL*/
