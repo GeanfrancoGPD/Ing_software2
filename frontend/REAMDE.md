@@ -15,7 +15,7 @@ ionic serve // Con cualquiera de las 2 corre el proyecto
 
 ```
 
-## #. Ejecuta las pruebas
+## 3. Ejecuta las pruebas
 
 ```js
 ng test // Deberia reenviarlo a una pagina de pruebas
