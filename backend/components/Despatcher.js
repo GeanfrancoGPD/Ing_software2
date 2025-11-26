@@ -1,6 +1,8 @@
 import { DB } from './DBComponent.js';
 import { Session } from './session.js';
-// import nodemailer from "nodemailer";
+import { hash, compare } from '../util/bycript.js';
+import crud from '../controller/crud.js';
+// import { sendEmail } from '../controller/email.js';
 
 export class Despatcher {
   constructor(DBConfig) {
@@ -17,16 +19,23 @@ export class Despatcher {
         message: 'Email y contraseña son requeridos',
       });
     }
-
     const user = await this.DBPool.executeQuery(
-      'SELECT id_usuario AS id, nombre AS name, email FROM usuario WHERE email = $1 AND password = $2',
-      [email, password]
+      'SELECT id_usuario AS id, nombre AS name, email, password FROM usuario WHERE email = $1',
+      [email]
     );
 
     if (user.length === 0) {
+      return sessionObject.response
+        .status(401)
+        .json({ success: false, message: 'Usuario no encontrado' });
+    }
+
+    const isPasswordValid = await compare(password, user[0].password);
+
+    if (!isPasswordValid) {
       return sessionObject.response.status(401).json({
         success: false,
-        message: 'Credenciales incorrectas',
+        message: 'contraseña incorrecta',
       });
     }
 
@@ -59,9 +68,11 @@ export class Despatcher {
       tipoFinal = tipoCliente[0].id_tipo_usuario;
     }
 
+    const hashedPassword = await hash(password);
+
     await this.DBPool.executeQuery(
       'INSERT INTO usuario (nombre, email, password, id_tipo_usuario) VALUES ($1, $2, $3, $4)',
-      [nombre, email, password, tipoFinal]
+      [nombre, email, hashedPassword, tipoFinal]
     );
 
     sessionObject.response.json({
@@ -80,35 +91,7 @@ export class Despatcher {
       });
     }
 
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: "<tu_correo>@gmail.com",
-    //     pass: "<tu_contraseña>",
-    //   },
-    // });
-
-    // await transporter.sendMail({
-    //   from: "<tu_correo>@gmail.com",
-    //   to: email,
-    //   subject: "Recuperacion de contraseña",
-    //   html: `
-    //                 <h1>Recupera tu contraseña</h1>
-    //                 <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
-    //                 <p>Haz clic en el siguiente enlace para crear una nueva contraseña:</p>
-    //                 <a href="http://localhost:3000/api/resetpassword" style="
-    //                 background-color: #007bff;
-    //                 color: white;
-    //                 padding: 10px 20px;
-    //                 text-decoration: none;
-    //                 border-radius: 5px;
-    //                 display: inline-block;
-    //                 ">Restablecer contraseña</a>
-    //                 <p>Este enlace expirará en 1 hora.</p>
-    //                 <p>Si no solicitaste este cambio, ignora este correo.</p>
-    //             `,
-    // });
-
+    // sendEmail(email);
     sessionObject.response.json({
       success: true,
       message: 'Se ha enviado el correo correctamente',
@@ -137,51 +120,57 @@ export class Despatcher {
   }
 
   async getData(sessionObject) {
-    if (this.sessionComponent.sessionExist(sessionObject)) {
-      try {
-        const data = await this.DBPool.executeQuery(
-          `SELECT nombre AS name, email, id_tipo_usuario
-           FROM usuario
-           WHERE id_usuario = $1`,
-          [sessionObject.request.session.user.id]
-        );
+    if (!this.sessionComponent.sessionExist(sessionObject)) {
+      return sessionObject.response
+        .status(401)
+        .json({ success: false, message: 'No hay sesión activa' });
+    }
 
-        if (data.length === 0) {
-          return sessionObject.response.status(404).json({
-            success: false,
-            message: 'Usuario no encontrado',
-          });
-        }
+    try {
+      const requesterId = sessionObject.request.session.user.id; // quien hace la petición
+      const requesterTipo = sessionObject.request.session.user.tipo; // 1=admin,2=cliente,3=empleado (ajusta según tu sesión)
+      const targetId = sessionObject.request.params?.id || requesterId; // si piden id, sino su propio id
 
-        // Obtener el tipo de usuario
-        const tipoUsuario = await this.DBPool.executeQuery(
-          `SELECT de_tipo_usuario FROM Tipos_usuario WHERE id_tipo_usuario = $1`,
-          [data[0].id_tipo_usuario]
-        );
-
-        sessionObject.response.json({
-          name: data[0].name,
-          email: data[0].email,
-          profile:
-            tipoUsuario.length > 0 ? tipoUsuario[0].de_tipo_usuario : 'Usuario',
-          success: true,
-        });
-      } catch (error) {
-        console.error('Error en getData:', error);
-        sessionObject.response.status(500).json({
-          success: false,
-          message: 'Error al obtener datos del usuario',
-        });
+      // si no es admin y pide otro usuario -> 403
+      if (requesterTipo !== 1 && Number(targetId) !== Number(requesterId)) {
+        return sessionObject.response
+          .status(403)
+          .json({ success: false, message: 'No autorizado' });
       }
-    } else {
-      sessionObject.response.status(401).json({
-        success: false,
-        message: 'No hay sesión activa',
+
+      const user = await crud.findById('usuario', 'id_usuario', targetId);
+      if (!user)
+        return sessionObject.response
+          .status(404)
+          .json({ success: false, message: 'Usuario no encontrado' });
+
+      const tipo = await crud.findById(
+        'tipos_usuario',
+        'id_tipo_usuario',
+        user.id_tipo_usuario
+      );
+
+      return sessionObject.response.json({
+        name: user.nombre,
+        email: user.email,
+        profile: tipo ? tipo.de_tipo_usuario : 'Usuario',
+        success: true,
       });
+    } catch (error) {
+      console.error(error);
+      return sessionObject.response
+        .status(500)
+        .json({ success: false, message: 'Error al obtener datos' });
     }
   }
 
   destroy(sessionObject) {
     this.sessionComponent.destroySession(sessionObject);
   }
+
+  //   Marcarlo como usado (conservar historial):
+  // UPDATE public.cliente_cupon
+  // SET usado = true, fecha_asignacion = now()
+  // WHERE id_usuario = 123
+  //   AND id_cupon = 45;
 }
