@@ -7,9 +7,13 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "pg": "^8.16.3"
+    "nodemailer": "^7.0.10",
+    "pg": "^8.16.3",
+    "resend": "^6.5.2"
   }
 }

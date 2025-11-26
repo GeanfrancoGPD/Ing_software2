@@ -3,16 +3,6 @@
   font-family: "Nokora", serif;
 }
 
-#container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: 83.5vh;
-  padding: 24px 16px;
-  background-color: #f6f1da;
-}
-
 .info {
   width: 100%;
   display: flex;
@@ -21,8 +11,24 @@
   text-align: center;
 }
 
-.info-user {
-  margin-top: 32px;
+.info-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 60px;
+}
+
+.title-home {
+  font-family: "Oleo", cursive;
+  font-size: 40px;
+  color: #367a4a;
+}
+
+.avatar-pequeño {
+  width: 30vw;
+  height: 14vh;
+  --border-radius: 50%;
+  margin-bottom: 16px;
 }
 
 .welcome-text {
@@ -32,35 +38,11 @@
   margin-bottom: 16px;
 }
 
-.info-user ion-avatar {
-  margin-bottom: 16px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #367a4a;
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.context {
   font-family: "Nokora", serif;
-  font-weight: 900;
-  color: #367a4a;
-}
-
-#container .link-button {
-  margin-top: 16px;
-  text-align: center;
   font-size: 18px;
-}
-
-#container ion-button {
-  --border-radius: 26px;
-  --background: #429644;
-  --color: #ffffff;
-  --box-shadow: none;
-  font-family: "Nokora", serif;
-  font-weight: 900;
+  height: 95vh;
+  margin: 20px;
+  border-radius: 16px;
+  background: #cfdb8f;
 }

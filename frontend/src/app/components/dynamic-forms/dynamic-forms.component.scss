@@ -64,6 +64,15 @@ ion-input::part(input) {
   --color: #367a4a !important;
 }
 
+.error-text {
+  margin-top: -10px;
+  margin-bottom: 16px;
+  padding-left: 16px;
+  font-size: 14px;
+  color: #d93025;
+  font-family: "Nokora", serif;
+}
+
 .custom-link {
   display: flex;
   justify-content: center;

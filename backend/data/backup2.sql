@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8AoCjySYJunWp8gflbfzZbnS0iRvg3RQqbaVZTHVeLp9U6UqMI0eDDGCJviIo9k
+\restrict 0RU8kwBm4SscPvaPWK5WwZkZgGQF6rlF6E8wVUG4bgnRxgslh7tEk2GgAEbcnjN
 
--- Dumped from database version 17rc1
--- Dumped by pg_dump version 18.0
+-- Dumped from database version 18.1
+-- Dumped by pg_dump version 18.1
 
--- Started on 2025-11-08 12:29:21
+-- Started on 2025-11-26 10:41:57
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 226 (class 1259 OID 64121)
+-- TOC entry 219 (class 1259 OID 16904)
 -- Name: cita; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -43,7 +43,7 @@ CREATE TABLE public.cita (
 ALTER TABLE public.cita OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 64120)
+-- TOC entry 220 (class 1259 OID 16908)
 -- Name: cita_id_cita_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -59,8 +59,8 @@ CREATE SEQUENCE public.cita_id_cita_seq
 ALTER SEQUENCE public.cita_id_cita_seq OWNER TO postgres;
 
 --
--- TOC entry 4940 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 5114 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: cita_id_cita_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -68,7 +68,22 @@ ALTER SEQUENCE public.cita_id_cita_seq OWNED BY public.cita.id_cita;
 
 
 --
--- TOC entry 232 (class 1259 OID 64162)
+-- TOC entry 237 (class 1259 OID 17026)
+-- Name: cliente_cupon; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cliente_cupon (
+    id_usuario integer NOT NULL,
+    id_cupon integer NOT NULL,
+    fecha_asignacion timestamp without time zone DEFAULT now(),
+    usado boolean DEFAULT false
+);
+
+
+ALTER TABLE public.cliente_cupon OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16909)
 -- Name: cupon; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -82,7 +97,7 @@ CREATE TABLE public.cupon (
 ALTER TABLE public.cupon OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1259 OID 64161)
+-- TOC entry 222 (class 1259 OID 16913)
 -- Name: cupon_id_cupon_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -98,8 +113,8 @@ CREATE SEQUENCE public.cupon_id_cupon_seq
 ALTER SEQUENCE public.cupon_id_cupon_seq OWNER TO postgres;
 
 --
--- TOC entry 4941 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 5115 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: cupon_id_cupon_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -107,7 +122,7 @@ ALTER SEQUENCE public.cupon_id_cupon_seq OWNED BY public.cupon.id_cupon;
 
 
 --
--- TOC entry 222 (class 1259 OID 64097)
+-- TOC entry 223 (class 1259 OID 16914)
 -- Name: departamento; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -122,7 +137,7 @@ CREATE TABLE public.departamento (
 ALTER TABLE public.departamento OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 64096)
+-- TOC entry 224 (class 1259 OID 16918)
 -- Name: departamento_id_departamento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -138,8 +153,8 @@ CREATE SEQUENCE public.departamento_id_departamento_seq
 ALTER SEQUENCE public.departamento_id_departamento_seq OWNER TO postgres;
 
 --
--- TOC entry 4942 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 5116 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: departamento_id_departamento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -147,7 +162,7 @@ ALTER SEQUENCE public.departamento_id_departamento_seq OWNED BY public.departame
 
 
 --
--- TOC entry 228 (class 1259 OID 64143)
+-- TOC entry 225 (class 1259 OID 16919)
 -- Name: factura; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -162,7 +177,7 @@ CREATE TABLE public.factura (
 ALTER TABLE public.factura OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 64142)
+-- TOC entry 226 (class 1259 OID 16923)
 -- Name: factura_id_factura_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -178,8 +193,8 @@ CREATE SEQUENCE public.factura_id_factura_seq
 ALTER SEQUENCE public.factura_id_factura_seq OWNER TO postgres;
 
 --
--- TOC entry 4943 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 5117 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: factura_id_factura_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -187,7 +202,7 @@ ALTER SEQUENCE public.factura_id_factura_seq OWNED BY public.factura.id_factura;
 
 
 --
--- TOC entry 230 (class 1259 OID 64155)
+-- TOC entry 227 (class 1259 OID 16924)
 -- Name: metodo_pago; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -200,7 +215,7 @@ CREATE TABLE public.metodo_pago (
 ALTER TABLE public.metodo_pago OWNER TO postgres;
 
 --
--- TOC entry 229 (class 1259 OID 64154)
+-- TOC entry 228 (class 1259 OID 16928)
 -- Name: metodo_pago_id_metodo_pago_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -216,8 +231,8 @@ CREATE SEQUENCE public.metodo_pago_id_metodo_pago_seq
 ALTER SEQUENCE public.metodo_pago_id_metodo_pago_seq OWNER TO postgres;
 
 --
--- TOC entry 4944 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 5118 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: metodo_pago_id_metodo_pago_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -225,7 +240,7 @@ ALTER SEQUENCE public.metodo_pago_id_metodo_pago_seq OWNED BY public.metodo_pago
 
 
 --
--- TOC entry 234 (class 1259 OID 64169)
+-- TOC entry 229 (class 1259 OID 16929)
 -- Name: pago; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -241,7 +256,7 @@ CREATE TABLE public.pago (
 ALTER TABLE public.pago OWNER TO postgres;
 
 --
--- TOC entry 233 (class 1259 OID 64168)
+-- TOC entry 230 (class 1259 OID 16933)
 -- Name: pago_id_pago_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -257,8 +272,8 @@ CREATE SEQUENCE public.pago_id_pago_seq
 ALTER SEQUENCE public.pago_id_pago_seq OWNER TO postgres;
 
 --
--- TOC entry 4945 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 5119 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: pago_id_pago_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -266,7 +281,7 @@ ALTER SEQUENCE public.pago_id_pago_seq OWNED BY public.pago.id_pago;
 
 
 --
--- TOC entry 224 (class 1259 OID 64109)
+-- TOC entry 231 (class 1259 OID 16934)
 -- Name: servicios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -281,7 +296,7 @@ CREATE TABLE public.servicios (
 ALTER TABLE public.servicios OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 64108)
+-- TOC entry 232 (class 1259 OID 16938)
 -- Name: servicios_id_servicio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -297,8 +312,8 @@ CREATE SEQUENCE public.servicios_id_servicio_seq
 ALTER SEQUENCE public.servicios_id_servicio_seq OWNER TO postgres;
 
 --
--- TOC entry 4946 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 5120 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: servicios_id_servicio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -306,7 +321,7 @@ ALTER SEQUENCE public.servicios_id_servicio_seq OWNED BY public.servicios.id_ser
 
 
 --
--- TOC entry 218 (class 1259 OID 64078)
+-- TOC entry 233 (class 1259 OID 16939)
 -- Name: tipos_usuario; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -319,7 +334,7 @@ CREATE TABLE public.tipos_usuario (
 ALTER TABLE public.tipos_usuario OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 64077)
+-- TOC entry 234 (class 1259 OID 16943)
 -- Name: tipos_usuario_id_tipo_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -335,8 +350,8 @@ CREATE SEQUENCE public.tipos_usuario_id_tipo_usuario_seq
 ALTER SEQUENCE public.tipos_usuario_id_tipo_usuario_seq OWNER TO postgres;
 
 --
--- TOC entry 4947 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 5121 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: tipos_usuario_id_tipo_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -344,7 +359,7 @@ ALTER SEQUENCE public.tipos_usuario_id_tipo_usuario_seq OWNED BY public.tipos_us
 
 
 --
--- TOC entry 220 (class 1259 OID 64085)
+-- TOC entry 235 (class 1259 OID 16944)
 -- Name: usuario; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -360,7 +375,7 @@ CREATE TABLE public.usuario (
 ALTER TABLE public.usuario OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 64084)
+-- TOC entry 236 (class 1259 OID 16948)
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -376,8 +391,8 @@ CREATE SEQUENCE public.usuario_id_usuario_seq
 ALTER SEQUENCE public.usuario_id_usuario_seq OWNER TO postgres;
 
 --
--- TOC entry 4948 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 5122 (class 0 OID 0)
+-- Dependencies: 236
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -385,7 +400,7 @@ ALTER SEQUENCE public.usuario_id_usuario_seq OWNED BY public.usuario.id_usuario;
 
 
 --
--- TOC entry 4739 (class 2604 OID 64124)
+-- TOC entry 4900 (class 2604 OID 16949)
 -- Name: cita id_cita; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -393,7 +408,7 @@ ALTER TABLE ONLY public.cita ALTER COLUMN id_cita SET DEFAULT nextval('public.ci
 
 
 --
--- TOC entry 4742 (class 2604 OID 64165)
+-- TOC entry 4901 (class 2604 OID 16950)
 -- Name: cupon id_cupon; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -401,7 +416,7 @@ ALTER TABLE ONLY public.cupon ALTER COLUMN id_cupon SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 4737 (class 2604 OID 64100)
+-- TOC entry 4902 (class 2604 OID 16951)
 -- Name: departamento id_departamento; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -409,7 +424,7 @@ ALTER TABLE ONLY public.departamento ALTER COLUMN id_departamento SET DEFAULT ne
 
 
 --
--- TOC entry 4740 (class 2604 OID 64146)
+-- TOC entry 4903 (class 2604 OID 16952)
 -- Name: factura id_factura; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -417,7 +432,7 @@ ALTER TABLE ONLY public.factura ALTER COLUMN id_factura SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 4741 (class 2604 OID 64158)
+-- TOC entry 4904 (class 2604 OID 16953)
 -- Name: metodo_pago id_metodo_pago; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -425,7 +440,7 @@ ALTER TABLE ONLY public.metodo_pago ALTER COLUMN id_metodo_pago SET DEFAULT next
 
 
 --
--- TOC entry 4743 (class 2604 OID 64172)
+-- TOC entry 4905 (class 2604 OID 16954)
 -- Name: pago id_pago; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -433,7 +448,7 @@ ALTER TABLE ONLY public.pago ALTER COLUMN id_pago SET DEFAULT nextval('public.pa
 
 
 --
--- TOC entry 4738 (class 2604 OID 64112)
+-- TOC entry 4906 (class 2604 OID 16955)
 -- Name: servicios id_servicio; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -441,7 +456,7 @@ ALTER TABLE ONLY public.servicios ALTER COLUMN id_servicio SET DEFAULT nextval('
 
 
 --
--- TOC entry 4735 (class 2604 OID 64081)
+-- TOC entry 4907 (class 2604 OID 16956)
 -- Name: tipos_usuario id_tipo_usuario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -449,7 +464,7 @@ ALTER TABLE ONLY public.tipos_usuario ALTER COLUMN id_tipo_usuario SET DEFAULT n
 
 
 --
--- TOC entry 4736 (class 2604 OID 64088)
+-- TOC entry 4908 (class 2604 OID 16957)
 -- Name: usuario id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -457,78 +472,117 @@ ALTER TABLE ONLY public.usuario ALTER COLUMN id_usuario SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 4926 (class 0 OID 64121)
--- Dependencies: 226
+-- TOC entry 5090 (class 0 OID 16904)
+-- Dependencies: 219
 -- Data for Name: cita; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.cita (id_cita, id_servicio, id_cliente, id_empleado, fecha_servicio, estado) FROM stdin;
+1	1	1	3	2025-11-15 10:00:00	Completada
+2	2	2	4	2025-11-20 14:30:00	Cancelada
+3	3	1	5	2025-11-22 09:00:00	Reservada
 \.
 
 
 --
--- TOC entry 4932 (class 0 OID 64162)
--- Dependencies: 232
+-- TOC entry 5108 (class 0 OID 17026)
+-- Dependencies: 237
+-- Data for Name: cliente_cupon; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cliente_cupon (id_usuario, id_cupon, fecha_asignacion, usado) FROM stdin;
+1	1	2025-11-24 00:39:46.704358	f
+1	2	2025-11-24 00:39:46.704358	f
+2	2	2025-11-24 00:39:46.704358	f
+2	3	2025-11-24 00:39:46.704358	f
+3	1	2025-11-24 00:39:46.704358	f
+\.
+
+
+--
+-- TOC entry 5092 (class 0 OID 16909)
+-- Dependencies: 221
 -- Data for Name: cupon; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.cupon (id_cupon, porcentaje, descripcion) FROM stdin;
+1	10	Descuento bienvenida
+2	20	Promoción verano
+3	15	Cliente frecuente
+4	10	Descuento bienvenida
+5	15	Cliente fiel
+6	20	Promoción especial noviembre
 \.
 
 
 --
--- TOC entry 4922 (class 0 OID 64097)
--- Dependencies: 222
+-- TOC entry 5094 (class 0 OID 16914)
+-- Dependencies: 223
 -- Data for Name: departamento; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.departamento (id_departamento, id_empleado, nombre, telefono_departamento) FROM stdin;
+1	3	Masajes	912345001
+2	4	Estética	912345002
+3	5	Manicura	912345003
 \.
 
 
 --
--- TOC entry 4928 (class 0 OID 64143)
--- Dependencies: 228
+-- TOC entry 5096 (class 0 OID 16919)
+-- Dependencies: 225
 -- Data for Name: factura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.factura (id_factura, id_cita, fecha, pago_total) FROM stdin;
+1	1	2025-11-15 11:00:00	45
+2	2	2025-11-20 15:00:00	40
+3	3	2025-11-22 10:00:00	20
 \.
 
 
 --
--- TOC entry 4930 (class 0 OID 64155)
--- Dependencies: 230
+-- TOC entry 5098 (class 0 OID 16924)
+-- Dependencies: 227
 -- Data for Name: metodo_pago; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.metodo_pago (id_metodo_pago, tipo_pago) FROM stdin;
+1	Efectivo
+2	Tarjeta
+3	Transferencia
 \.
 
 
 --
--- TOC entry 4934 (class 0 OID 64169)
--- Dependencies: 234
+-- TOC entry 5100 (class 0 OID 16929)
+-- Dependencies: 229
 -- Data for Name: pago; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.pago (id_pago, id_factura, id_metodo_pago, id_cupon, monto_total) FROM stdin;
+1	1	2	1	45
+2	2	1	2	40
+3	3	3	3	20
 \.
 
 
 --
--- TOC entry 4924 (class 0 OID 64109)
--- Dependencies: 224
+-- TOC entry 5102 (class 0 OID 16934)
+-- Dependencies: 231
 -- Data for Name: servicios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.servicios (id_servicio, id_departamento, nombre, precio) FROM stdin;
+1	1	Masaje relajante	50
+2	2	Facial hidratante	40
+3	3	Manicura básica	20
 \.
 
 
 --
--- TOC entry 4918 (class 0 OID 64078)
--- Dependencies: 218
+-- TOC entry 5104 (class 0 OID 16939)
+-- Dependencies: 233
 -- Data for Name: tipos_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -540,83 +594,86 @@ COPY public.tipos_usuario (id_tipo_usuario, de_tipo_usuario) FROM stdin;
 
 
 --
--- TOC entry 4920 (class 0 OID 64085)
--- Dependencies: 220
+-- TOC entry 5106 (class 0 OID 16944)
+-- Dependencies: 235
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.usuario (id_usuario, nombre, password, email, id_tipo_usuario) FROM stdin;
 1	María López	clave123	maria@example.com	2
-2   geanfranco Hola123. hola@gmail.com 2   
+2	Geanfranco	Mango123.	Hola@gmail.com	2
+3	José Pérez	emp123	jose.perez@spa.com	3
+4	Ana Ruiz	emp456	ana.ruiz@spa.com	3
+5	Luis Gómez	emp789	luis.gomez@spa.com	3
 \.
 
 
 --
--- TOC entry 4949 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 5123 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: cita_id_cita_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cita_id_cita_seq', 1, false);
+SELECT pg_catalog.setval('public.cita_id_cita_seq', 3, true);
 
 
 --
--- TOC entry 4950 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 5124 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: cupon_id_cupon_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cupon_id_cupon_seq', 1, false);
+SELECT pg_catalog.setval('public.cupon_id_cupon_seq', 6, true);
 
 
 --
--- TOC entry 4951 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 5125 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: departamento_id_departamento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.departamento_id_departamento_seq', 1, false);
+SELECT pg_catalog.setval('public.departamento_id_departamento_seq', 3, true);
 
 
 --
--- TOC entry 4952 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 5126 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: factura_id_factura_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.factura_id_factura_seq', 1, false);
+SELECT pg_catalog.setval('public.factura_id_factura_seq', 3, true);
 
 
 --
--- TOC entry 4953 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 5127 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: metodo_pago_id_metodo_pago_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.metodo_pago_id_metodo_pago_seq', 1, false);
+SELECT pg_catalog.setval('public.metodo_pago_id_metodo_pago_seq', 3, true);
 
 
 --
--- TOC entry 4954 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 5128 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: pago_id_pago_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pago_id_pago_seq', 1, false);
+SELECT pg_catalog.setval('public.pago_id_pago_seq', 3, true);
 
 
 --
--- TOC entry 4955 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 5129 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: servicios_id_servicio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.servicios_id_servicio_seq', 1, false);
+SELECT pg_catalog.setval('public.servicios_id_servicio_seq', 3, true);
 
 
 --
--- TOC entry 4956 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 5130 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: tipos_usuario_id_tipo_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -624,16 +681,16 @@ SELECT pg_catalog.setval('public.tipos_usuario_id_tipo_usuario_seq', 3, true);
 
 
 --
--- TOC entry 4957 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 5131 (class 0 OID 0)
+-- Dependencies: 236
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 1, true);
+SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 5, true);
 
 
 --
--- TOC entry 4753 (class 2606 OID 64126)
+-- TOC entry 4912 (class 2606 OID 16959)
 -- Name: cita cita_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -642,7 +699,16 @@ ALTER TABLE ONLY public.cita
 
 
 --
--- TOC entry 4759 (class 2606 OID 64167)
+-- TOC entry 4930 (class 2606 OID 17034)
+-- Name: cliente_cupon cliente_cupon_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cliente_cupon
+    ADD CONSTRAINT cliente_cupon_pkey PRIMARY KEY (id_usuario, id_cupon);
+
+
+--
+-- TOC entry 4914 (class 2606 OID 16961)
 -- Name: cupon cupon_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -651,7 +717,7 @@ ALTER TABLE ONLY public.cupon
 
 
 --
--- TOC entry 4749 (class 2606 OID 64102)
+-- TOC entry 4916 (class 2606 OID 16963)
 -- Name: departamento departamento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -660,7 +726,7 @@ ALTER TABLE ONLY public.departamento
 
 
 --
--- TOC entry 4755 (class 2606 OID 64148)
+-- TOC entry 4918 (class 2606 OID 16965)
 -- Name: factura factura_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -669,7 +735,7 @@ ALTER TABLE ONLY public.factura
 
 
 --
--- TOC entry 4757 (class 2606 OID 64160)
+-- TOC entry 4920 (class 2606 OID 16967)
 -- Name: metodo_pago metodo_pago_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -678,7 +744,7 @@ ALTER TABLE ONLY public.metodo_pago
 
 
 --
--- TOC entry 4761 (class 2606 OID 64174)
+-- TOC entry 4922 (class 2606 OID 16969)
 -- Name: pago pago_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -687,7 +753,7 @@ ALTER TABLE ONLY public.pago
 
 
 --
--- TOC entry 4751 (class 2606 OID 64114)
+-- TOC entry 4924 (class 2606 OID 16971)
 -- Name: servicios servicios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -696,7 +762,7 @@ ALTER TABLE ONLY public.servicios
 
 
 --
--- TOC entry 4745 (class 2606 OID 64083)
+-- TOC entry 4926 (class 2606 OID 16973)
 -- Name: tipos_usuario tipos_usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -705,7 +771,7 @@ ALTER TABLE ONLY public.tipos_usuario
 
 
 --
--- TOC entry 4747 (class 2606 OID 64090)
+-- TOC entry 4928 (class 2606 OID 16975)
 -- Name: usuario usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -714,7 +780,7 @@ ALTER TABLE ONLY public.usuario
 
 
 --
--- TOC entry 4765 (class 2606 OID 64132)
+-- TOC entry 4931 (class 2606 OID 16976)
 -- Name: cita cita_id_cliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -723,7 +789,7 @@ ALTER TABLE ONLY public.cita
 
 
 --
--- TOC entry 4766 (class 2606 OID 64137)
+-- TOC entry 4932 (class 2606 OID 16981)
 -- Name: cita cita_id_empleado_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -732,7 +798,7 @@ ALTER TABLE ONLY public.cita
 
 
 --
--- TOC entry 4767 (class 2606 OID 64127)
+-- TOC entry 4933 (class 2606 OID 16986)
 -- Name: cita cita_id_servicio_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -741,7 +807,7 @@ ALTER TABLE ONLY public.cita
 
 
 --
--- TOC entry 4763 (class 2606 OID 64103)
+-- TOC entry 4934 (class 2606 OID 16991)
 -- Name: departamento departamento_id_empleado_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -750,7 +816,7 @@ ALTER TABLE ONLY public.departamento
 
 
 --
--- TOC entry 4768 (class 2606 OID 64149)
+-- TOC entry 4935 (class 2606 OID 16996)
 -- Name: factura factura_id_cita_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -759,7 +825,25 @@ ALTER TABLE ONLY public.factura
 
 
 --
--- TOC entry 4769 (class 2606 OID 64185)
+-- TOC entry 4941 (class 2606 OID 17040)
+-- Name: cliente_cupon fk_cc_cupon; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cliente_cupon
+    ADD CONSTRAINT fk_cc_cupon FOREIGN KEY (id_cupon) REFERENCES public.cupon(id_cupon) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4942 (class 2606 OID 17035)
+-- Name: cliente_cupon fk_cc_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cliente_cupon
+    ADD CONSTRAINT fk_cc_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4936 (class 2606 OID 17001)
 -- Name: pago pago_id_cupon_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -768,7 +852,7 @@ ALTER TABLE ONLY public.pago
 
 
 --
--- TOC entry 4770 (class 2606 OID 64175)
+-- TOC entry 4937 (class 2606 OID 17006)
 -- Name: pago pago_id_factura_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -777,7 +861,7 @@ ALTER TABLE ONLY public.pago
 
 
 --
--- TOC entry 4771 (class 2606 OID 64180)
+-- TOC entry 4938 (class 2606 OID 17011)
 -- Name: pago pago_id_metodo_pago_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -786,7 +870,7 @@ ALTER TABLE ONLY public.pago
 
 
 --
--- TOC entry 4764 (class 2606 OID 64115)
+-- TOC entry 4939 (class 2606 OID 17016)
 -- Name: servicios servicios_id_departamento_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -795,7 +879,7 @@ ALTER TABLE ONLY public.servicios
 
 
 --
--- TOC entry 4762 (class 2606 OID 64091)
+-- TOC entry 4940 (class 2606 OID 17021)
 -- Name: usuario usuario_id_tipo_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -803,11 +887,11 @@ ALTER TABLE ONLY public.usuario
     ADD CONSTRAINT usuario_id_tipo_usuario_fkey FOREIGN KEY (id_tipo_usuario) REFERENCES public.tipos_usuario(id_tipo_usuario);
 
 
--- Completed on 2025-11-08 12:29:22
+-- Completed on 2025-11-26 10:41:58
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8AoCjySYJunWp8gflbfzZbnS0iRvg3RQqbaVZTHVeLp9U6UqMI0eDDGCJviIo9k
+\unrestrict 0RU8kwBm4SscPvaPWK5WwZkZgGQF6rlF6E8wVUG4bgnRxgslh7tEk2GgAEbcnjN
 
