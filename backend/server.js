@@ -8,7 +8,7 @@ import cors from 'cors';
 const poolConfig = JSON.parse(
   await promises.readFile('./data/DBConfig.json', 'utf-8')
 );
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 const despatcher = new Despatcher(poolConfig);
 const app = express();
 app.use(
@@ -62,8 +62,8 @@ app.post('/api/logout', (request, response) => {
   despatcher.destroy({ request, response });
 });
 
-app.post('/api/ToProccess', (request, response) => {
-  despatcher.ToProccess({ request, response });
+app.post('/api/toProccess', (request, response) => {
+  despatcher.toProccess({ request, response });
 });
 
 app.post('/api/resetPassword', (request, response) => {

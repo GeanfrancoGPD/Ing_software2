@@ -1,34 +1,26 @@
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import { readFileSync } from 'fs';
-import { log } from 'console';
+import { Resend } from 'resend';
 
 dotenv.config();
+const resend = new Resend(process.env.resendApiKey);
 
-export async function sendEmail(to) {
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.example.com',
-    port: 587,
-    secure: false,
-    service: 'Gmail',
-    auth: {
-      user: process.env.user,
-      pass: process.env.password,
-    },
-  });
+export async function sendEmail(to, Code) {
+  // let transporter = nodemailer.createTransport({
+  //   host: 'smtp.example.com',
+  //   port: 587,
+  //   secure: false,
+  //   service: 'Gmail',
+  //   auth: {
+  //     user: process.env.user,
+  //     pass: process.env.password,
+  //   },
+  // });
 
-  try {
-    const data = readFileSync('controller/code.html', 'utf8');
-    console.log('Contenido del archivo HTML:', data);
-  } catch (err) {
-    console.error('Error al leer el archivo:', err);
-  }
-
-  let Code = Math.random().toString(36).substring(2, 8).toUpperCase();
-  let info = await transporter.sendMail({
-    from: `"Sender Name" <${process.env.user}>`,
+  resend.emails.send({
+    from: 'onboarding@resend.dev',
     to: to,
-    subject: 'Hello from Nodemailer!',
+    subject: 'Hello World',
     html: `
       <!DOCTYPE html>
       <html lang="es">
@@ -100,13 +92,6 @@ export async function sendEmail(to) {
             >
               <div class="px-6 py-8 sm:px-10">
                 <div class="text-center">
-                  <div class="flex flex-col items-center justify-center mb-6">
-                    <img
-                      alt="Logo de BrisaZen, una flor de loto estilizada"
-                      class="h-40 w-auto"
-                      src="./logo.svg"
-                    />
-                  </div>
                   <div class="flex justify-center items-center space-x-2 my-6">
                     <span class="h-2 w-2 rounded-full bg-primary"></span>
                     <span class="h-2 w-2 rounded-full bg-primary"></span>
@@ -136,15 +121,7 @@ export async function sendEmail(to) {
                     </p>
                   </div>
                 </div>
-                <div class="text-center">
-                  <a
-                    class="inline-block w-full sm:w-auto rounded-full bg-primary px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors duration-200"
-                    href="#"
-                    style="text-decoration: none"
-                  >
-                    Realizar cambio de contraseña
-                  </a>
-                </div>
+  
                 <div
                   class="mt-8 text-center text-sm text-text-light dark:text-text-dark/80"
                 >
@@ -173,8 +150,6 @@ export async function sendEmail(to) {
 
     `,
   });
-
-  // console.log('Message sent: %s', info.messageId);
 }
 
-sendEmail('hola@gmailcom');
+// sendEmail('correo');
