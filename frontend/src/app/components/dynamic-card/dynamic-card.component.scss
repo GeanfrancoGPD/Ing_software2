@@ -1,0 +1,56 @@
+.card {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 10vh;
+  width: 80vw;
+  border: solid 3px #367a4a;
+  border-radius: 16px;
+  padding: 10px;
+  margin: 5px;
+  background: #fefed4;
+}
+
+.icon,
+.img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 5px;
+  margin-left: 0px;
+}
+
+.img {
+  background-color: #429644;
+}
+
+.icon ion-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+}
+ion-icon {
+  width: 30px;
+  height: 30px;
+  color: white;
+  margin: 10px;
+}
+
+.content {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  margin: 3px;
+}
+
+.content h1,
+.content p {
+  display: flex;
+  justify-content: start;
+  margin: 4px;
+  white-space: nowrap; /* Evita saltos raros */
+  overflow: hidden; /* Evita desbordes */
+  text-overflow: ellipsis; /* Agrega ... si el texto es demasiado largo */
+}
