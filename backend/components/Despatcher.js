@@ -228,6 +228,20 @@ export class Despatcher {
   async toProccess(sessionObject) {
     const { table, params, type } = sessionObject.request.body;
     // Lógica para el método ToProccess
+    /**
+     *  ejemplos
+     * create:
+     *  await this.crud.create("usuario", { nombre: "Juan", email: "test" });
+     * update:
+     *  await this.crud.update("usuario", "id_usuario", 5, { email: "nuevo@mail.com" });
+     * delete:
+     *  await this.crud.delete("usuario", "id_usuario", 5);
+     * findById:
+     *  const user = await this.crud.findById("usuario", "id_usuario", 5);
+     * findAll:
+     *  const users = await this.crud.findAll("usuario");
+     *
+     */
     if (!this.existSession(sessionObject)) {
       return sessionObject.response
         .status(401)
