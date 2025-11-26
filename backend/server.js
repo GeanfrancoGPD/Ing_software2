@@ -74,10 +74,6 @@ app.post('/api/resetPassword', (request, response) => {
   despatcher.recoverPassword({ request, response });
 });
 
-app.post('/api/resetPassword', (request, response) => {
-  despatcher.recoverPassword({ request, response });
-});
-
 app.listen(port, () => {
   console.log(`Servidor ejecutandose en el puerto ${port}`);
 });
