@@ -1,13 +1,20 @@
 import { DB } from './DBComponent.js';
 import { Session } from './session.js';
 import { hash, compare } from '../util/bycript.js';
-import crud from '../controller/crud.js';
-// import { sendEmail } from '../controller/email.js';
+import Crud from '../controller/crud.js';
+import crypto from 'crypto';
+import { sendEmail } from '../controller/email.js';
+import { log } from 'console';
 
 export class Despatcher {
   constructor(DBConfig) {
     this.DBPool = new DB(DBConfig);
+    this.crud = new Crud(this.DBPool);
     this.sessionComponent = new Session();
+  }
+
+  existSession(sessionObject) {
+    return this.sessionComponent.sessionExist(sessionObject);
   }
 
   async login(sessionObject) {
@@ -91,31 +98,85 @@ export class Despatcher {
       });
     }
 
-    // sendEmail(email);
-    sessionObject.response.json({
+    const emailExists = await this.crud.findById('usuario', 'email', email);
+
+    if (!emailExists) {
+      return sessionObject.response.status(404).json({
+        success: false,
+        message: 'El email no está registrado',
+      });
+    }
+    // 1. Generar token aleatorio
+    let token = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    // 2. Calcular expiración
+    const expiresAt = new Date(Date.now() + 3 * 60 * 1000); // 3 minutos
+
+    // 3. Guardar token en la base de datos
+    await this.DBPool.executeQuery(
+      `
+    INSERT INTO password_reset_tokens (email, token, expires_at)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (email)
+    DO UPDATE SET token = $2, expires_at = $3
+    `,
+      [email, token, expiresAt]
+    );
+
+    // 4. Enviar email
+    sendEmail(email, token);
+
+    return sessionObject.response.json({
       success: true,
-      message: 'Se ha enviado el correo correctamente',
+      message: 'Token generado',
     });
   }
 
   async resetPassword(sessionObject) {
-    const { email, password } = sessionObject.request.body;
+    console.log('Cuerpo de la solicitud:', sessionObject.request.body);
 
-    if (!email || !password) {
-      return sessionObject.response.status(404).json({
+    const { token, password } = sessionObject.request.body;
+
+    if (!token || !password) {
+      return sessionObject.response.status(400).json({
         success: false,
-        message: 'Email y contraseña son requeridos',
+        message: 'Token y contraseña son requeridos',
       });
     }
 
-    await this.DBPool.executeQuery(
-      'update usuario set password = $2 where email = $1',
-      [email, password]
+    // 1. Buscar el token en la DB
+    const rows = await this.DBPool.executeQuery(
+      'SELECT email, token, expires_at FROM password_reset_tokens WHERE token = $1',
+      [token]
     );
 
-    sessionObject.response.json({
+    if (!rows.length) {
+      return sessionObject.response.status(401).json({
+        success: false,
+        message: 'Token inválido',
+      });
+    }
+
+    const record = rows[0];
+
+    // 2. Validar expiración
+    if (new Date() > record.expires_at) {
+      return sessionObject.response.status(401).json({
+        success: false,
+        message: 'El token ha expirado',
+      });
+    }
+
+    const newHashed = await hash(password);
+
+    await this.DBPool.executeQuery(
+      'UPDATE usuario SET password = $1 WHERE email = $2',
+      [newHashed, record.email]
+    );
+
+    return sessionObject.response.json({
       success: true,
-      message: 'Se ha cambiado la contraseña correctamente',
+      message: 'Contraseña cambiada correctamente',
     });
   }
 
@@ -138,13 +199,13 @@ export class Despatcher {
           .json({ success: false, message: 'No autorizado' });
       }
 
-      const user = await crud.findById('usuario', 'id_usuario', targetId);
+      const user = await this.crud.findById('usuario', 'id_usuario', targetId);
       if (!user)
         return sessionObject.response
           .status(404)
           .json({ success: false, message: 'Usuario no encontrado' });
 
-      const tipo = await crud.findById(
+      const tipo = await this.crud.findById(
         'tipos_usuario',
         'id_tipo_usuario',
         user.id_tipo_usuario
@@ -161,6 +222,65 @@ export class Despatcher {
       return sessionObject.response
         .status(500)
         .json({ success: false, message: 'Error al obtener datos' });
+    }
+  }
+
+  async toProccess(sessionObject) {
+    const { table, params, type } = sessionObject.request.body;
+    // Lógica para el método ToProccess
+    if (!this.existSession(sessionObject)) {
+      return sessionObject.response
+        .status(401)
+        .json({ success: false, message: 'No hay sesión activa' });
+    }
+
+    try {
+      switch (type) {
+        case 'create':
+          // Lógica para crear un registro
+          const created = await this.crud.create(table, params);
+          return sessionObject.response.json({
+            success: true,
+            data: created,
+          });
+
+        case 'update':
+          // Lógica para actualizar un registro
+          const { idCol, id, data } = params;
+          const updated = await this.crud.update(table, idCol, id, data);
+          return sessionObject.response.json({
+            success: true,
+            data: updated,
+          });
+        case 'delete':
+          // Lógica para eliminar un registro
+          const { idCol: delIdCol, id: delId } = params;
+          const deleted = await this.crud.delete(table, delIdCol, delId);
+          return sessionObject.response.json({
+            success: true,
+            data: deleted,
+          });
+        case 'findById':
+          // Lógica para encontrar un registro por ID
+          const { idCol: findIdCol, id: findId } = params;
+          const foundById = await this.crud.findById(table, findIdCol, findId);
+          return sessionObject.response.json({
+            success: true,
+            data: foundById,
+          });
+        case 'findAll':
+          // Lógica para encontrar registros
+          const found = await this.crud.findAll(table);
+          return sessionObject.response.json({
+            success: true,
+            data: found,
+          });
+      }
+    } catch (error) {
+      console.error(error);
+      return sessionObject.response
+        .status(500)
+        .json({ success: false, message: 'Error al procesar la solicitud' });
     }
   }
 
