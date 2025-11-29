@@ -78,6 +78,6 @@ app.post('/api/toProccess', (req, res) => {
 });
 
 // --- START ---
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Servidor ejecutandose en el puerto ${port}`);
 });
