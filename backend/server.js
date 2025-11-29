@@ -32,7 +32,11 @@ app.set('trust proxy', 1);
 //   })
 // );
 
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 // JSON
 app.use(express.json());
 
