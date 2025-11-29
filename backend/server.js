@@ -3,11 +3,9 @@ import session from 'express-session';
 import express from 'express';
 import { promises } from 'fs';
 import cors from 'cors';
-const poolConfig = JSON.parse(
-  await promises.readFile('./data/DBConfig.json', 'utf-8')
-);
+
 const port = process.env.PORT || 5000;
-const despatcher = new Despatcher(poolConfig);
+const despatcher = new Despatcher();
 const app = express();
 app.use(
   cors({
