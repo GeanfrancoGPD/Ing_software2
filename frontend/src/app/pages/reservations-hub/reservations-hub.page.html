@@ -1,0 +1,38 @@
+<ion-content [fullscreen]="true">
+  <div class="page">
+    <app-compact-header title="BrisaZen"></app-compact-header>
+
+    <div class="search-row">
+      <ion-item lines="none" class="search-item">
+        <ion-input
+          type="search"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar reservas"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button fill="clear" class="filter-btn">
+        <div class="filter-btn-inner">
+          <ion-icon src="../../../assets/icon/filter-svg.svg"></ion-icon>
+        </div>
+      </ion-button>
+    </div>
+
+    <div class="reservations-wrapper">
+      <div class="reservations-list">
+        <ng-container *ngFor="let r of filteredReservations">
+          <app-dynamic-card
+            [title]="r.title"
+            [description]="r.dateLabel"
+          ></app-dynamic-card>
+        </ng-container>
+      </div>
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="onAddReservation()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>

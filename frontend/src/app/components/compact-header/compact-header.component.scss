@@ -1,0 +1,26 @@
+.compact-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 8px 8px;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+}
+
+.app-name {
+  margin: 0 0 0 6px;
+  font-family: 'kelly';
+  font-size: 36px;
+  color: #367a4a;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0.4px 0 0 #367a4a, -0.4px 0 0 #367a4a, 0 0.4px 0 #367a4a,
+    0 -0.4px 0 #367a4a;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+}
