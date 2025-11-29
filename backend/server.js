@@ -7,18 +7,25 @@ import cors from 'cors';
 const port = process.env.PORT || 5000;
 const despatcher = new Despatcher();
 const app = express();
-app.use(
-  cors({
-    origin: [
-      'http://localhost:8100',
-      'http://localhost:4200',
-      'http://localhost:3000',
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-  })
-);
+
+const corsOptions = {
+  origin: [
+    'http://localhost:8100',
+    'http://localhost:4200',
+    'http://localhost:3000',
+    // agrega otros orígenes que necesites
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+};
+
+// Aplicar CORS antes de rutas o middlewares que pudieran redirigir
+app.use(cors(corsOptions));
+
+// Asegurar respuesta a preflight (OPTIONS)
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use(
   session({
