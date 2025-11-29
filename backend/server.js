@@ -3,8 +3,6 @@ import session from 'express-session';
 import express from 'express';
 import { promises } from 'fs';
 import cors from 'cors';
-// import { request } from 'http';
-// import { response } from 'express';
 const poolConfig = JSON.parse(
   await promises.readFile('./data/DBConfig.json', 'utf-8')
 );

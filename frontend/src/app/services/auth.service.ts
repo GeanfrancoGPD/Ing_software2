@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {BehaviorSubject, Observable, tap} from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface LoginPayload {
@@ -37,6 +37,12 @@ export interface UserData {
   success: boolean;
 }
 
+export interface ProcessPayload {
+  table: string;
+  params: any;
+  type: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
@@ -47,41 +53,55 @@ export class AuthService {
 
   login(payload: LoginPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/login`, payload, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
   register(payload: RegisterPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/register`, payload, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
   recoverPassword(payload: RecoverPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/recover`, payload, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
   resetPassword(payload: ResetPayload): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/resetpassword`, payload, {
-      withCredentials: true
-    });
+    return this.http.post<ApiResponse>(
+      `${this.apiUrl}/resetpassword`,
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getData(): Observable<UserData> {
-    return this.http.get<UserData>(`${this.apiUrl}/getdata`, {
-      withCredentials: true,
-    }).pipe(
-      tap((user) => this.currentUserSubject.next(user))
-    );
+    return this.http
+      .get<UserData>(`${this.apiUrl}/getdata`, {
+        withCredentials: true,
+      })
+      .pipe(tap((user) => this.currentUserSubject.next(user)));
   }
 
   logout(): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/logout`, {}, {
+    return this.http
+      .post<ApiResponse>(
+        `${this.apiUrl}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .pipe(tap(() => this.currentUserSubject.next(null)));
+  }
+
+  toProcess(payload: ProcessPayload): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/toprocess`, payload, {
       withCredentials: true,
-    }).pipe(
-      tap(() => this.currentUserSubject.next(null))
-    );
+    });
   }
 }

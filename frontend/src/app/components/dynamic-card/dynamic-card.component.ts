@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-card',
@@ -10,9 +11,20 @@ import { IonicModule } from '@ionic/angular';
   imports: [CommonModule, IonicModule],
 })
 export class DynamicCardComponent implements OnInit {
-  constructor() {}
   @Input() title: string = '';
   @Input() description: string = '';
+  @Input() imageUrl: string = '';
+  @Input() LinkUrl: string = '';
+
+  constructor(private router: Router) {}
 
   ngOnInit() {}
+
+  onCardClick() {
+    if (this.LinkUrl) {
+      setTimeout(() => {
+        this.router.navigate([this.LinkUrl]);
+      }, 1000);
+    }
+  }
 }

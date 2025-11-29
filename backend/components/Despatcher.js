@@ -250,45 +250,50 @@ export class Despatcher {
 
     try {
       switch (type) {
-        case 'create':
-          // Lógica para crear un registro
+        case 'create': {
           const created = await this.crud.create(table, params);
           return sessionObject.response.json({
             success: true,
             data: created,
           });
+        }
 
-        case 'update':
-          // Lógica para actualizar un registro
+        case 'update': {
           const { idCol, id, data } = params;
           const updated = await this.crud.update(table, idCol, id, data);
           return sessionObject.response.json({
             success: true,
             data: updated,
           });
-        case 'delete':
-          // Lógica para eliminar un registro
+        }
+
+        case 'delete': {
           const { idCol: delIdCol, id: delId } = params;
           const deleted = await this.crud.delete(table, delIdCol, delId);
           return sessionObject.response.json({
             success: true,
             data: deleted,
           });
-        case 'findById':
-          // Lógica para encontrar un registro por ID
-          const { idCol: findIdCol, id: findId } = params;
-          const foundById = await this.crud.findById(table, findIdCol, findId);
+        }
+
+        case 'findById': {
+          const idCol = Object.keys(params)[0];
+          const id = params[idCol];
+
+          const foundById = await this.crud.findById(table, idCol, id);
           return sessionObject.response.json({
             success: true,
             data: foundById,
           });
-        case 'findAll':
-          // Lógica para encontrar registros
+        }
+
+        case 'findAll': {
           const found = await this.crud.findAll(table);
           return sessionObject.response.json({
             success: true,
             data: found,
           });
+        }
       }
     } catch (error) {
       console.error(error);
