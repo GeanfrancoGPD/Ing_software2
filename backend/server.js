@@ -18,6 +18,7 @@ app.use(
         'http://localhost:4200',
         'http://localhost:3000',
         'http://localhost:8100',
+        'https://ing-software2.onrender.com',
       ];
       if (!origin || allowed.includes(origin)) {
         callback(null, origin);
