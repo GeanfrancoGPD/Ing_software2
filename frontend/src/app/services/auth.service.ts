@@ -59,13 +59,13 @@ export class AuthService {
 
   register(payload: RegisterPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/register`, payload, {
-      // withCredentials: true,
+      withCredentials: true,
     });
   }
 
   recoverPassword(payload: RecoverPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/recover`, payload, {
-      // withCredentials: true,
+      withCredentials: true,
     });
   }
 

@@ -11,32 +11,32 @@ const app = express();
 app.set('trust proxy', 1);
 
 // --- CORS global ---
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowed = [
+        'http://localhost:4200',
+        'http://localhost:3000',
+        'http://localhost:8100',
+      ];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, origin);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  })
+);
+
 // app.use(
 //   cors({
-//     origin: (origin, callback) => {
-//       const allowed = [
-//         'http://localhost:4200',
-//         'http://localhost:3000',
-//         'http://localhost:8100',
-
-//       ];
-//       if (!origin || allowed.includes(origin)) {
-//         callback(null, origin);
-//       } else {
-//         callback(new Error('Not allowed by CORS'));
-//       }
-//     },
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+//     origin: '*',
 //   })
 // );
 
-app.use(
-  cors({
-    origin: '*',
-  })
-);
 // JSON
 app.use(express.json());
 
