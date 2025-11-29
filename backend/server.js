@@ -1,31 +1,44 @@
 import { Despatcher } from './components/Despatcher.js';
 import session from 'express-session';
 import express from 'express';
-import { promises } from 'fs';
 import cors from 'cors';
 
 const port = process.env.PORT || 5000;
 const despatcher = new Despatcher();
 const app = express();
 
+// --- Middlewares ---
+app.use(express.json());
+app.use(
+  session({
+    secret: 'mi-clave-secreta',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60, // 1 hora
+    },
+  })
+);
+
+// --- CORS global ---
 const corsOptions = {
   origin: [
     'http://localhost:8100',
     'http://localhost:4200',
     'http://localhost:3000',
-    // agrega otros orígenes que necesites
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
 };
-
-// Aplicar CORS antes de rutas o middlewares que pudieran redirigir
 app.use(cors(corsOptions));
 
+// --- Middleware explícito para preflight OPTIONS ---
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
-    // reflejar origen solicitado (no usar '*') cuando se usan credenciales
     const origin = req.headers.origin || '';
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader(
@@ -42,57 +55,36 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-app.use(
-  session({
-    secret: 'mi-clave-secreta',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60, // 1 hora
-    },
-  })
-);
-
-app.post('/api/login', async (request, response) => {
-  await despatcher.login({ request, response });
+// --- Rutas ---
+app.post('/api/login', async (req, res) => {
+  await despatcher.login({ request: req, response: res });
 });
 
-app.post('/api/register', async (request, response) => {
-  await despatcher.registerUser({ request, response });
+app.post('/api/register', async (req, res) => {
+  await despatcher.registerUser({ request: req, response: res });
 });
 
-app.post('/api/recover', async (request, response) => {
-  await despatcher.recoverPassword({ request, response });
+app.post('/api/recover', async (req, res) => {
+  await despatcher.recoverPassword({ request: req, response: res });
 });
 
-app.post('/api/resetpassword', async (request, response) => {
-  await despatcher.resetPassword({ request, response });
+app.post('/api/resetpassword', async (req, res) => {
+  await despatcher.resetPassword({ request: req, response: res });
 });
 
-app.get('/api/getdata', async (request, response) => {
-  await despatcher.getData({ request, response });
+app.get('/api/getdata', async (req, res) => {
+  await despatcher.getData({ request: req, response: res });
 });
 
-app.post('/api/logout', (request, response) => {
-  despatcher.destroy({ request, response });
+app.post('/api/logout', (req, res) => {
+  despatcher.destroy({ request: req, response: res });
 });
 
-app.post('/api/toProccess', (request, response) => {
-  despatcher.toProccess({ request, response });
+app.post('/api/toProccess', (req, res) => {
+  despatcher.toProccess({ request: req, response: res });
 });
 
-app.post('/api/resetPassword', (request, response) => {
-  despatcher.recoverPassword({ request, response });
-});
-
-app.post('/api/resetPassword', (request, response) => {
-  despatcher.recoverPassword({ request, response });
-});
-
+// --- START ---
 app.listen(port, () => {
   console.log(`Servidor ejecutandose en el puerto ${port}`);
 });
