@@ -10,9 +10,6 @@ const app = express();
 // Railway usa proxy
 app.set('trust proxy', 1);
 
-// JSON
-app.use(express.json());
-
 // --- CORS global ---
 app.use(
   cors({
@@ -29,8 +26,13 @@ app.use(
       }
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   })
 );
+
+// JSON
+app.use(express.json());
 
 app.use(
   session({
