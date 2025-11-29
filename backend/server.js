@@ -7,8 +7,31 @@ const port = process.env.PORT || 5000;
 const despatcher = new Despatcher();
 const app = express();
 
-// --- Middlewares ---
+// Railway usa proxy
+app.set('trust proxy', 1);
+
+// JSON
 app.use(express.json());
+
+// --- CORS global ---
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowed = [
+        'http://localhost:4200',
+        'http://localhost:3000',
+        'http://localhost:8100',
+      ];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, origin);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(
   session({
     secret: 'mi-clave-secreta',
@@ -16,44 +39,12 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60, // 1 hora
+      secure: true,
+      sameSite: 'none',
+      maxAge: 1000 * 60 * 60,
     },
   })
 );
-
-// --- CORS global ---
-const corsOptions = {
-  origin: [
-    'http://localhost:8100',
-    'http://localhost:4200',
-    'http://localhost:3000',
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-};
-app.use(cors(corsOptions));
-
-// --- Middleware explícito para preflight OPTIONS ---
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    const origin = req.headers.origin || '';
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET,POST,PUT,DELETE,OPTIONS'
-    );
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Content-Type,Authorization,Cookie'
-    );
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    return res.sendStatus(204);
-  }
-  next();
-});
 
 // --- Rutas ---
 app.post('/api/login', async (req, res) => {
