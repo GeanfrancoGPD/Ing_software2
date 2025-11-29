@@ -1,14 +1,15 @@
 .card {
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
-  height: 10vh;
-  width: 80vw;
-  border: solid 3px #367a4a;
+  min-height: 80px;
+  width: 100%;
+  border: solid 2px #2e7c40;
   border-radius: 16px;
-  padding: 10px;
-  margin: 5px;
+  padding: 8px 12px;
+  margin: 2px 0;
   background: #fefed4;
+  box-sizing: border-box;
 }
 
 .card:hover {
@@ -17,46 +18,58 @@
   cursor: pointer;
 }
 
-.icon,
-.img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin: 5px;
-  margin-left: 0px;
-}
-
-.img {
-  background-color: #429644;
-}
-
-.icon ion-icon {
+.icon {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
 }
-ion-icon {
-  width: 30px;
-  height: 30px;
-  color: white;
-  margin: 10px;
+
+.img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #429644;
+  flex-shrink: 0;
+}
+
+.img ion-icon,
+.icon ion-icon {
+  width: 24px;
+  height: 24px;
+  color: #ffffff;
+  margin: 0;
 }
 
 .content {
   display: flex;
-  justify-content: start;
   flex-direction: column;
-  margin: 3px;
+  margin: 0 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.content h1 {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #188447;
+}
+
+.content p {
+  margin: 0;
+  font-size: 12px;
+  color: #8b8b6a;
 }
 
 .content h1,
 .content p {
-  display: flex;
-  justify-content: start;
-  margin: 4px;
-  white-space: nowrap; /* Evita saltos raros */
-  overflow: hidden; /* Evita desbordes */
-  text-overflow: ellipsis; /* Agrega ... si el texto es demasiado largo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

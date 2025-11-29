@@ -52,4 +52,11 @@ export const routes: Routes = [
         (m) => m.MainPage
       ),
   },
+  {
+    path: 'reservas',
+    loadComponent: () =>
+      import('./pages/reservations-hub/reservations-hub.page').then(
+        (m) => m.ReservationsHubPage
+      ),
+  },
 ];
