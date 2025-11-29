@@ -2,13 +2,11 @@ import { DB } from './DBComponent.js';
 import { Session } from './session.js';
 import { hash, compare } from '../util/bycript.js';
 import Crud from '../controller/crud.js';
-import crypto from 'crypto';
 import { sendEmail } from '../controller/email.js';
-import { log } from 'console';
 
 export class Despatcher {
-  constructor(DBConfig) {
-    this.DBPool = new DB(DBConfig);
+  constructor() {
+    this.DBPool = new DB();
     this.crud = new Crud(this.DBPool);
     this.sessionComponent = new Session();
   }

@@ -1,16 +1,16 @@
 import { Pool } from 'pg';
 
 export class DB {
-  constructor(poolConfig) {
+  constructor() {
     this.pool = new Pool({
-      user: poolConfig.user,
-      host: poolConfig.host,
-      database: poolConfig.database,
-      password: poolConfig.password,
-      port: poolConfig.port,
-      max: poolConfig.maxConnections,
-      idleTimeoutMillis: poolConfig.idleTimeoutMillis,
-      connectionTimeoutMillis: poolConfig.connectionTimeoutMillis,
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
+      max: process.env.DB_MAX || 20,
+      idleTimeoutMillis: process.env.DB_IDLE_TIMEOUT || 30000,
+      connectionTimeoutMillis: process.env.DB_CONN_TIMEOUT || 2000,
       ssl: { rejectUnauthorized: false },
     });
   }
