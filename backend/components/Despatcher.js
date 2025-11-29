@@ -179,6 +179,8 @@ export class Despatcher {
   }
 
   async getData(sessionObject) {
+    console.log('Cuerpo de mi respuesta:', sessionObject.request);
+
     if (!this.sessionComponent.sessionExist(sessionObject)) {
       return sessionObject.response
         .status(401)
