@@ -55,7 +55,7 @@ export class AuthFacade {
 
   async login(
     payload: LoginPayload,
-    redirectTo: string = '/main'
+    redirectTo: string = '/reservas'
   ): Promise<void> {
     const loading = await this.loadingController.create({
       message: 'Iniciando sesión...',
