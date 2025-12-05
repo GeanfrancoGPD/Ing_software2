@@ -120,6 +120,11 @@ export class Crud {
     const rows = await this.db.executeQuery(sql, [id]);
     return rows[0] || null;
   }
+  async getData(table, idCol, id) {
+    const sql = `SELECT * FROM ${table} WHERE ${idCol} = $1`;
+    const rows = await this.db.executeQuery(sql, [id]);
+    return rows;
+  }
 }
 
 export default Crud;

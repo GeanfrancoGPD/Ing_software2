@@ -1,4 +1,6 @@
-import { Pool } from 'pg';
+import { Pool } from "pg";
+import fs from "fs";
+import { log } from "console";
 
 export class DB {
   constructor() {
@@ -15,6 +17,19 @@ export class DB {
     });
   }
 
+  init() {
+    this.loadQueries();
+  }
+
+  async loadQueries() {
+    try {
+      const data = fs.readFileSync("./data/query.json", "utf8");
+      this.queries = JSON.parse(data);
+    } catch (error) {
+      console.error("Error al cargar query.json:", error);
+    }
+  }
+
   async executeQuery(query) {
     const result = await this.pool.query(query);
     return result.rows;
@@ -23,5 +38,17 @@ export class DB {
   async executeQuery(query, params) {
     const result = await this.pool.query(query, params);
     return result.rows;
+  }
+
+  async excecuteNameQuery(nameQuery, params = []) {
+    try {
+      const insertUserQuery = this.queries[nameQuery].query;
+      const result = await this.pool.query(insertUserQuery, params);
+      console.log("resultado:", result.rows);
+
+      return result.rows;
+    } catch (error) {
+      console.error("Error no se encuentra la consulta:", error);
+    }
   }
 }

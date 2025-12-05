@@ -1,0 +1,14 @@
+{
+  "getCitas": {
+    "query": "SELECT c.id_cita, c.id_servicio, c.fecha_servicio, c.estado, cl.nombre AS nombre_cliente, e.nombre AS nombre_empleado FROM cita c INNER JOIN usuario cl ON c.id_cliente = cl.id_usuario INNER JOIN usuario e ON c.id_empleado = e.id_usuario;",
+    "structure_params": {},
+    "orderArray": []
+  },
+  "getCitaById": {
+    "query": "SELECT c.id_cita, c.id_servicio, c.fecha_servicio, c.estado, cl.nombre AS nombre_cliente, e.nombre AS nombre_empleado FROM cita c INNER JOIN usuario cl ON c.id_cliente = cl.id_usuario INNER JOIN usuario e ON c.id_empleado = e.id_usuario WHERE c.id_cita = $1;",
+    "structure_params": {
+      "id_cita": "string"
+    },
+    "orderArray": ["id_cita"]
+  }
+}

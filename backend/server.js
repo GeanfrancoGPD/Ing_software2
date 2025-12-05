@@ -1,35 +1,37 @@
-import { Despatcher } from './components/Despatcher.js';
-import session from 'express-session';
-import express from 'express';
-import cors from 'cors';
+import { Dispatcher } from "./components/Dispatcher.js";
+import session from "express-session";
+import express from "express";
+import cors from "cors";
 
 const port = process.env.PORT || 5000;
-const despatcher = new Despatcher();
+const dispatcher = new Dispatcher();
 const app = express();
 
+dispatcher.init();
+
 // Railway usa proxy
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // --- CORS global ---
 app.use(
   cors({
     origin: (origin, callback) => {
       const allowed = [
-        'http://localhost:4200',
-        'http://localhost:3000',
-        'http://localhost:8100',
-        'https://ing-software2.onrender.com',
-          '*',
+        "http://localhost:4200",
+        "http://localhost:3000",
+        "http://localhost:8100",
+        "https://ing-software2.onrender.com",
+        "*",
       ];
       if (!origin || allowed.includes(origin)) {
         callback(null, origin);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
 
@@ -44,48 +46,48 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: 'mi-clave-secreta',
+    secret: "mi-clave-secreta",
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: 'none',
+      sameSite: "none",
       maxAge: 1000 * 60 * 60,
     },
   })
 );
 
 // --- Rutas ---
-app.post('/api/login', async (req, res) => {
-  await despatcher.login({ request: req, response: res });
+app.post("/api/login", async (req, res) => {
+  await Dispatcher.login({ request: req, response: res });
 });
 
-app.post('/api/register', async (req, res) => {
-  await despatcher.registerUser({ request: req, response: res });
+app.post("/api/register", async (req, res) => {
+  await Dispatcher.registerUser({ request: req, response: res });
 });
 
-app.post('/api/recover', async (req, res) => {
-  await despatcher.recoverPassword({ request: req, response: res });
+app.post("/api/recover", async (req, res) => {
+  await Dispatcher.recoverPassword({ request: req, response: res });
 });
 
-app.post('/api/resetpassword', async (req, res) => {
-  await despatcher.resetPassword({ request: req, response: res });
+app.post("/api/resetpassword", async (req, res) => {
+  await Dispatcher.resetPassword({ request: req, response: res });
 });
 
-app.get('/api/getdata', async (req, res) => {
-  await despatcher.getData({ request: req, response: res });
+app.get("/api/getdata", async (req, res) => {
+  await Dispatcher.getData({ request: req, response: res });
 });
 
-app.post('/api/logout', (req, res) => {
-  despatcher.destroy({ request: req, response: res });
+app.post("/api/logout", (req, res) => {
+  Dispatcher.destroy({ request: req, response: res });
 });
 
-app.post('/api/toProccess', (req, res) => {
-  despatcher.toProccess({ request: req, response: res });
+app.post("/api/toProccess", (req, res) => {
+  Dispatcher.toProccess({ request: req, response: res });
 });
 
 // --- START ---
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Servidor ejecutandose en el puerto ${port}`);
 });
