@@ -144,6 +144,6 @@ export class ReservationsHubPage {
   }
 
   onAddReservation() {
-    // TODO: Navegar a la página para crear nueva reserva cuando exista
+    this.router.navigate(['/package']);
   }
 }
