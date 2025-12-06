@@ -60,31 +60,31 @@ app.use(
 
 // --- Rutas ---
 app.post("/api/login", async (req, res) => {
-  await Dispatcher.login({ request: req, response: res });
+  await dispatcher.login({ request: req, response: res });
 });
 
 app.post("/api/register", async (req, res) => {
-  await Dispatcher.registerUser({ request: req, response: res });
+  await dispatcher.registerUser({ request: req, response: res });
 });
 
 app.post("/api/recover", async (req, res) => {
-  await Dispatcher.recoverPassword({ request: req, response: res });
+  await dispatcher.recoverPassword({ request: req, response: res });
 });
 
 app.post("/api/resetpassword", async (req, res) => {
-  await Dispatcher.resetPassword({ request: req, response: res });
+  await dispatcher.resetPassword({ request: req, response: res });
 });
 
 app.get("/api/getdata", async (req, res) => {
-  await Dispatcher.getData({ request: req, response: res });
+  await dispatcher.getData({ request: req, response: res });
 });
 
 app.post("/api/logout", (req, res) => {
-  Dispatcher.destroy({ request: req, response: res });
+  dispatcher.destroy({ request: req, response: res });
 });
 
 app.post("/api/toProccess", (req, res) => {
-  Dispatcher.toProccess({ request: req, response: res });
+  dispatcher.toProccess({ request: req, response: res });
 });
 
 // --- START ---

@@ -1,0 +1,43 @@
+<div class="container">
+  <app-compact-header title="Detalle de Reserva"></app-compact-header>
+
+  <div class="content">
+    <!-- Círculo -->
+    <div class="filter-btn-inner">
+      <ion-icon src="../../../assets/icon/calendar-svg.svg"></ion-icon>
+    </div>
+
+    <div class="content-text">
+      <div class="header-with-back">
+        <div class="filter-btn" (click)="goBack()">
+          <ion-icon src="../../../assets/icon/arrow-left-simple.svg"></ion-icon>
+        </div>
+        <h2>{{reserva.title}}</h2>
+      </div>
+
+      <div class="card">
+        <ion-item>
+          <ion-label>
+            <h3>Resumen de la cita</h3>
+            <ul>
+              <li>ID: #{{reserva.id_reserva}}</li>
+              <li>Fecha: {{reserva.dateLabel}}</li>
+              <li>Cliente: {{reserva.NombreCliente}}</li>
+              <li>Empleado: {{reserva.NombreEmpleado}}</li>
+            </ul>
+          </ion-label>
+        </ion-item>
+      </div>
+      <div class="card">
+        <ion-item>
+          <ion-label>
+            <h3>Servicios incluidos</h3>
+            <ul>
+              <li>{{reserva.servicioRaw}}</li>
+            </ul>
+          </ion-label>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+</div>

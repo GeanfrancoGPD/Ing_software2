@@ -308,6 +308,18 @@ export class Dispatcher {
             data,
           });
         }
+
+        case "nameQuery": {
+          const { nameQuery, queryParams } = params;
+          const result = await this.DBPool.excecuteNameQuery(
+            nameQuery,
+            queryParams
+          );
+          return sessionObject.response.json({
+            success: true,
+            data: result,
+          });
+        }
       }
     } catch (error) {
       console.error(error);

@@ -58,5 +58,13 @@ export const routes: Routes = [
       import('./pages/reservations-hub/reservations-hub.page').then(
         (m) => m.ReservationsHubPage
       ),
+  },  {
+    path: 'reservation-detail',
+    loadComponent: () => import('./pages/reservation-detail/reservation-detail.page').then( m => m.ReservationDetailPage)
   },
+  {
+    path: 'package',
+    loadComponent: () => import('./pages/package/package.page').then( m => m.PackagePage)
+  },
+
 ];

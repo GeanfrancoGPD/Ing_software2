@@ -39,7 +39,10 @@ export interface UserData {
 
 export interface ProcessPayload {
   table: string;
-  params: any;
+  params: {
+    nameQuery: string;
+    queryParams: string;
+  };
   type: string;
 }
 
@@ -100,7 +103,7 @@ export class AuthService {
   }
 
   toProcess(payload: ProcessPayload): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/toprocess`, payload, {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/toProccess`, payload, {
       // withCredentials: true,
     });
   }

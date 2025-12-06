@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="header">
+    <ion-avatar class="avatar-grande">
+      <img alt="Logo" src="../../../assets/logo.png" />
+    </ion-avatar>
+
+    <h1 class="title">Elige tu paquete</h1>
+  </div>
+  <div class="content">
+    <ng-container *ngFor="let paquete of paquetes">
+      <div class="card">
+        <div class="degrade">.</div>
+        <div class="info">
+          <h2>{{ paquete.nombre_paquete }}</h2>
+          <ul>
+            <li *ngFor="let servicio of paquete.servicios">{{ servicio }}</li>
+          </ul>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

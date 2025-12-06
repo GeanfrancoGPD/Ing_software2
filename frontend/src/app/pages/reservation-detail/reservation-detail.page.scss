@@ -1,0 +1,107 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1vh; /* espacio arriba */
+}
+
+/* Círculo */
+.filter-btn-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22vh;
+  height: 22vh;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(76, 82, 201, 1) 0%,
+    rgba(241, 177, 50, 1) 100%
+  );
+  border: 6px solid #2c7a4b;
+  margin-bottom: -12vh; /* sobrepone parte del círculo */
+  z-index: 2;
+}
+
+.filter-btn-inner ion-icon {
+  font-size: 14vh;
+}
+
+.content-text {
+  width: 85vw;
+  height: 70vh;
+  background: #cfdb8f;
+  padding: 15px;
+  border-radius: 20px;
+  padding-top: 16vh; /* espacio para que el círculo entre */
+  z-index: 1;
+  overflow-y: auto;
+}
+
+/* Título */
+.content-text h2 {
+  font-size: 9vw;
+  font-family: "Oleo", cursive;
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.card {
+  background: #f6f1da;
+  border-radius: 15px;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ion-item {
+  --background: transparent;
+  --ion-item-border-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+ion-label h3,
+p,
+ul,
+li {
+  color: #2c7a4b;
+}
+
+ion-label h3 {
+  font-size: 6vw;
+  margin: 0 0 5px 0;
+  font-family: "Oleo", cursive;
+  border-bottom: #2c7a4b 3px solid;
+}
+
+ion-label p,
+ul,
+li {
+  font-size: 4vw;
+  margin: 0;
+  font-family: "Oleo", cursive;
+}
+
+ion-label ul {
+  padding-left: 5vw;
+  margin-top: 5px;
+}
+
+.header-with-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4vh;
+  height: 4vh;
+}
+
+.filter-btn ion-icon {
+  font-size: 4vh;
+}

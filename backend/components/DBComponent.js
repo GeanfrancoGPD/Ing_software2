@@ -40,10 +40,12 @@ export class DB {
     return result.rows;
   }
 
-  async excecuteNameQuery(nameQuery, params = []) {
+  async excecuteNameQuery(nameQuery, params = {}) {
     try {
-      const insertUserQuery = this.queries[nameQuery].query;
-      const result = await this.pool.query(insertUserQuery, params);
+      const query = this.queries[nameQuery].query;
+      const values = Object.values(params);
+
+      const result = await this.pool.query(query, values);
       console.log("resultado:", result.rows);
 
       return result.rows;

@@ -9,6 +9,7 @@ import {
   ResetPayload,
   ProcessPayload,
 } from './auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
@@ -17,40 +18,20 @@ export class AuthFacade {
   private toastController = inject(ToastController);
   private loadingController = inject(LoadingController);
 
-  async toprocess(
-    payload: ProcessPayload,
-    redirectTo: string = '/citas'
-  ): Promise<void> {
+  async toprocess(payload: ProcessPayload): Promise<any> {
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
     await loading.present();
 
-    this.auth.toProcess(payload).subscribe({
-      next: async () => {
-        await loading.dismiss();
-        const toast = await this.toastController.create({
-          message: 'Proceso completado exitosamente',
-          duration: 2000,
-          color: 'success',
-          position: 'top',
-        });
-        await toast.present();
-        this.router.navigateByUrl(redirectTo);
-      },
-      error: async (error) => {
-        await loading.dismiss();
-        const message =
-          error.error?.message || 'Error al conectar con el servidor';
-        const toast = await this.toastController.create({
-          message,
-          duration: 3000,
-          color: 'danger',
-          position: 'top',
-        });
-        await toast.present();
-      },
-    });
+    try {
+      const data = await firstValueFrom(this.auth.toProcess(payload)); // convierte Observable en Promise
+      await loading.dismiss();
+      return data;
+    } catch (error) {
+      await loading.dismiss();
+      throw error;
+    }
   }
 
   async login(

@@ -24,6 +24,7 @@
           <app-dynamic-card
             [title]="r.title"
             [description]="r.dateLabel"
+            (click)="onReservationClick(r)"
           ></app-dynamic-card>
         </ng-container>
       </div>

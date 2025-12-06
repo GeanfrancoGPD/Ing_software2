@@ -5,10 +5,22 @@
     "orderArray": []
   },
   "getCitaById": {
-    "query": "SELECT c.id_cita, c.id_servicio, c.fecha_servicio, c.estado, cl.nombre AS nombre_cliente, e.nombre AS nombre_empleado FROM cita c INNER JOIN usuario cl ON c.id_cliente = cl.id_usuario INNER JOIN usuario e ON c.id_empleado = e.id_usuario WHERE c.id_cita = $1;",
+    "query": "SELECT c.id_cita, c.id_servicio, c.fecha_servicio, c.estado, c.nombre_cita, cl.nombre AS nombre_cliente, e.nombre AS nombre_empleado, d.nombre AS nombre_servicio FROM cita c INNER JOIN usuario cl ON c.id_cliente = cl.id_usuario INNER JOIN usuario e ON c.id_empleado = e.id_usuario INNER JOIN departamento d ON c.id_servicio = d.id_departamento WHERE c.id_cita = $1;",
     "structure_params": {
       "id_cita": "string"
     },
     "orderArray": ["id_cita"]
+  },
+  "getPaqueteById": {
+    "query": "SELECT p.id_paquete, p.nombre AS nombre_paquete, p.precio, p.fecha_inicio, p.fecha_culminacion, s.id_servicio, s.nombre AS nombre_servicio, s.precio AS precio_servicio FROM paquete p INNER JOIN paquete_servicio ps ON p.id_paquete = ps.id_paquete INNER JOIN servicios s ON ps.id_servicio = s.id_servicio ORDER BY p.id_paquete;",
+    "structure_params": {
+      "id_paquete": "string"
+    },
+    "orderArray": ["id_paquete"]
+  },
+  "getAllPaquetes": {
+    "query": "SELECT p.id_paquete, p.nombre AS nombre_paquete, s.nombre AS nombre_servicio FROM paquete p INNER JOIN paquete_servicio ps ON p.id_paquete = ps.id_paquete INNER JOIN servicios s ON ps.id_servicio = s.id_servicio ORDER BY p.id_paquete;",
+    "structure_params": {},
+    "orderArray": ["id_paquete"]
   }
 }
