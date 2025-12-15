@@ -20,18 +20,18 @@ app.use(
         "http://localhost:4200",
         "http://localhost:3000",
         "http://localhost:8100",
+        "ionic://localhost",
+        "capacitor://localhost",
         "https://ing-software2.onrender.com",
-        "*",
       ];
+
       if (!origin || allowed.includes(origin)) {
-        callback(null, origin);
+        callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
 
@@ -49,6 +49,7 @@ app.use(
     secret: "mi-clave-secreta",
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       httpOnly: true,
       secure: true,

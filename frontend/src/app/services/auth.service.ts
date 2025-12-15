@@ -77,7 +77,7 @@ export class AuthService {
       `${this.apiUrl}/resetpassword`,
       payload,
       {
-        // withCredentials: true,
+        withCredentials: true,
       }
     );
   }
@@ -96,7 +96,7 @@ export class AuthService {
         `${this.apiUrl}/logout`,
         {},
         {
-          // withCredentials: true,
+          withCredentials: true,
         }
       )
       .pipe(tap(() => this.currentUserSubject.next(null)));
@@ -104,7 +104,7 @@ export class AuthService {
 
   toProcess(payload: ProcessPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/toProccess`, payload, {
-      // withCredentials: true,
+      withCredentials: true,
     });
   }
 }
