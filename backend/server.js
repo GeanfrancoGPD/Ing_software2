@@ -17,6 +17,7 @@ app.use(
   cors({
     origin: (origin, callback) => {
       const allowed = [
+        "https://localhost",
         "http://localhost:4200",
         "http://localhost:3000",
         "http://localhost:8100",
