@@ -1,18 +1,53 @@
 import { DB } from "./DBComponent.js";
 import { Session } from "./session.js";
-import { hash, compare } from "../util/bycript.js";
+import UtilBycript from "../util/bycript.js";
 import Crud from "../controller/crud.js";
 import { sendEmail } from "../controller/email.js";
+import Validator from "../util/validator.js";
 
 export class Dispatcher {
   constructor() {
     this.DBPool = new DB();
     this.crud = new Crud(this.DBPool);
     this.sessionComponent = new Session();
+    this.utilBycript = new UtilBycript();
+    this.validator = Validator();
   }
 
-  init() {
+  init(app) {
     this.DBPool.init();
+    this.app = app;
+    this.registerRoutes();
+  }
+
+  registerRoutes() {
+    this.app.post("/api/login", async (req, res) => {
+      await this.login({ request: req, response: res });
+    });
+
+    this.app.post("/api/register", async (req, res) => {
+      await this.registerUser({ request: req, response: res });
+    });
+
+    this.app.post("/api/recover", async (req, res) => {
+      await this.recoverPassword({ request: req, response: res });
+    });
+
+    this.app.post("/api/resetpassword", async (req, res) => {
+      await this.resetPassword({ request: req, response: res });
+    });
+
+    this.app.get("/api/getdata", async (req, res) => {
+      await this.getData({ request: req, response: res });
+    });
+
+    this.app.post("/api/logout", (req, res) => {
+      this.destroy({ request: req, response: res });
+    });
+
+    this.app.post("/api/toProccess", (req, res) => {
+      this.toProccess({ request: req, response: res });
+    });
   }
 
   existSession(sessionObject) {
@@ -28,6 +63,13 @@ export class Dispatcher {
         message: "Email y contraseña son requeridos",
       });
     }
+
+    if (!this.validator.validateEmail(email)) {
+      return sessionObject.response.status(400).json({
+        success: false,
+        mensaje: "",
+      });
+    }
     const user = await this.DBPool.executeQuery(
       "SELECT id_usuario AS id, nombre AS name, email, password FROM usuario WHERE email = $1",
       [email]
@@ -39,7 +81,10 @@ export class Dispatcher {
         .json({ success: false, message: "Usuario no encontrado" });
     }
 
-    const isPasswordValid = await compare(password, user[0].password);
+    const isPasswordValid = await this.utilBycript.compare(
+      password,
+      user[0].password
+    );
 
     if (!isPasswordValid) {
       return sessionObject.response.status(401).json({
@@ -77,7 +122,7 @@ export class Dispatcher {
       tipoFinal = tipoCliente[0].id_tipo_usuario;
     }
 
-    const hashedPassword = await hash(password);
+    const hashedPassword = await this.utilBycript.hash(password);
 
     await this.DBPool.executeQuery(
       "INSERT INTO usuario (nombre, email, password, id_tipo_usuario) VALUES ($1, $2, $3, $4)",
@@ -169,7 +214,7 @@ export class Dispatcher {
       });
     }
 
-    const newHashed = await hash(password);
+    const newHashed = await this.utilBycript.hash(password);
 
     await this.DBPool.executeQuery(
       "UPDATE usuario SET password = $1 WHERE email = $2",
